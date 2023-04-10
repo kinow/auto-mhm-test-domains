@@ -1,0 +1,5 @@
+JOBS:
+  HELLO:
+    FILE: templates/hello.sh
+    PLATFORM: local
+    RUNNING: once

@@ -1,0 +1,7 @@
+PLATFORMS:
+  LOCAL:
+    TYPE: ps
+    HOST: localhost
+    USER: kinow
+    ADD_PROJECT_TO_HOST: false
+    SCRATCH_DIR: /tmp/
