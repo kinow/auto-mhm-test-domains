@@ -7,4 +7,3 @@ RUN micromamba install --yes --name base --channel conda-forge \
 
 WORKDIR /
 CMD ["mhm"]
-
