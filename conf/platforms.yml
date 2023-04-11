@@ -4,4 +4,10 @@ PLATFORMS:
     HOST: localhost
     USER: kinow
     ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: /tmp/
+    SCRATCH_DIR: /tmp/local/
+  REMOTE:
+    TYPE: ps
+    HOST: localhost
+    USER: kinow
+    ADD_PROJECT_TO_HOST: false
+    SCRATCH_DIR: /tmp/remote/

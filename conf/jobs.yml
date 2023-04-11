@@ -1,5 +1,71 @@
 JOBS:
-  HELLO:
-    FILE: templates/hello.sh
+  LOCAL_SETUP:
+    FILE: templates/local_setup.sh
     PLATFORM: local
     RUNNING: once
+    TITLE: 'Local setup'
+    DOC: |
+      This task will use the project's Dockerfile
+      to create a local Docker container and then
+      using that first container it will create a
+      second Singularity container with mHM. Once
+      the second container has been created, then
+      the Docker image is removed to save space.
+  SYNC_TO_REMOTE:
+    FILE: templates/sync_to_remote.sh
+    PLATFORM: local
+    RUNNING: once
+    DEPENDENCIES: LOCAL_SETUP
+    TITLE: 'Synchronize local data to remote platform'
+    DOC: |
+      This task sychronizes the local files with
+      the remote platform. More specifically, it
+      will `scp` the singularity image.
+  REMOTE_SETUP:
+    FILE: templates/remote_setup.sh
+    PLATFORM: remote
+    RUNNING: once
+    DEPENDENCIES: SYNC_TO_REMOTE
+    TITLE: 'Remote setup'
+    DOC: |
+      This task will fetch the test domain data
+      for mHM from their Git tag.
+  SIM:
+    FILE: templates/sim.sh
+    PLATFORM: remote
+    RUNNING: date
+    DEPENDENCIES: REMOTE_SETUP
+    TITLE: 'Simulation'
+    DOC: |
+      This is the main task of the workflow. It
+      will replace the period dates in the test
+      mhm.nml creating a new file to be used in
+      the simulation with mHM (--nml).
+  GRAPH:
+    FILE: templates/graph.sh
+    PLATFORM: remote
+    RUNNING: date
+    DEPENDENCIES: SIM
+    TITLE: 'Plot graph'
+    DOC: |
+      This is the step in the simulation, where
+      we plot the graphs for mHM.
+  SYNC_FROM_REMOTE:
+    FILE: templates/sync_from_remote.sh
+    PLATFORM: local
+    RUNNING: once
+    DEPENDENCIES: GRAPH
+    TITLE: 'Synchronize remote data to local platform'
+    DOC: |
+      This task copies remote data produced by mHM
+      to the local platform.
+  CLEAN:
+    FILE: templates/clean.sh
+    PLATFORM: remote
+    RUNNING: once
+    DEPENDENCIES: SYNC_FROM_REMOTE
+    TITLE: 'Clean files'
+    DOC: |
+      The very final step. It will stop and clean
+      the containers used for this simulation. It
+      will also delete the output files of mHM.
