@@ -12,6 +12,8 @@ docker build \
 
 echo "Creating the Singularity container for mHM v%MHM.VERSION%"
 
-sudo singularity build mhm.sif "docker-daemon://auto-mhm-test-domains/mhm:v%MHM.VERSION%"
+sudo singularity build --force mhm.sif "docker-daemon://auto-mhm-test-domains/mhm:v%MHM.VERSION%"
+
+singularity inspect --all mhm.sif
 
 echo "LOCAL_SETUP complete!"
