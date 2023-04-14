@@ -14,10 +14,10 @@ if [[ ! -f mhm.sif ]]; then
 
   echo "Creating the Singularity container for mHM v%MHM.VERSION%"
 
-  sudo apptainer build --force mhm.sif "docker-daemon://auto-mhm-test-domains/mhm:v%MHM.VERSION%"
+  sudo singularity build --force mhm.sif "docker-daemon://auto-mhm-test-domains/mhm:v%MHM.VERSION%"
 
 fi
 
-apptainer inspect --all mhm.sif
+singularity inspect --all mhm.sif
 
 echo "LOCAL_SETUP complete!"

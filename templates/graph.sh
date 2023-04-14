@@ -19,7 +19,7 @@ echo "Plotting PNG files for each timestep of the PET variable in the mHM_Fluxes
 function plot() {
   local OUTPUT_FOLDER=$1
   echo "Output folder is: ${OUTPUT_FOLDER}"
-  apptainer exec mhm.sif /opt/conda/bin/python plot.py \
+  singularity exec mhm.sif /opt/conda/bin/python plot.py \
       --variable "PET" \
       --input "${OUTPUT_FOLDER}/mHM_Fluxes_States.nc" \
       --output "${OUTPUT_FOLDER}"

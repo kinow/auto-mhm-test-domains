@@ -22,6 +22,6 @@ sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERI
 sed -i "s|test_domain/|data/test_domain/|" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
 sed -i "s|test_domain_2/|data/test_domain_2/|" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
 
-apptainer exec mhm.sif /opt/conda/bin/mhm --nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+singularity exec mhm.sif /opt/conda/bin/mhm --nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
 
 echo "SIM complete!"
