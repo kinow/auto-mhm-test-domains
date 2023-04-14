@@ -34,7 +34,7 @@ JOBS:
     FILE: templates/sim.sh
     PLATFORM: remote
     RUNNING: date
-#    DEPENDENCIES: REMOTE_SETUP
+    DEPENDENCIES: REMOTE_SETUP
     TITLE: 'Simulation'
     DOC: |
       This is the main task of the workflow. It
