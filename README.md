@@ -4,6 +4,27 @@ This repository contains the configuration for an Autosubmit
 workflow that runs mHM with its test domain data. A Docker
 container is used to run mHM.
 
+## Prerequisites
+
+<!--
+NOTE: With CWL you can list the software requirements for a computational
+      workflow. Unfortunately we do not have the same for Autosubmit. But
+      maybe we could find a way to give a specification of requirements?
+      CWL can also declare that a workflow or tool needs Internet, and
+      even Docker. So everything in this section can be part of the CWL
+      Workflow definition. Would be nice to have something we could use
+      in Autosubmit (like a standard way of defining it?).
+-->
+
+In order to run this workflow you will need the following:
+
+1. Internet connection
+2. Linux
+3. Autosubmit 4.x
+4. Docker & Singularity for containers
+
+For a list of software used, besides `mHM`, see the `Dockerfile`.
+
 ## The workflow
 
 An Autosubmit workflow created with

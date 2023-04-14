@@ -34,7 +34,11 @@ JOBS:
     FILE: templates/sim.sh
     PLATFORM: remote
     RUNNING: date
-    DEPENDENCIES: REMOTE_SETUP
+    # TODO: SIM has a dependency on SIM-1 to control
+    #       the number of SIM jobs running in parallel.
+    #       But this would not be necessary if mHM
+    #       had an option to choose the output folder.
+    DEPENDENCIES: REMOTE_SETUP SIM-1
     TITLE: 'Simulation'
     DOC: |
       This is the main task of the workflow. It
