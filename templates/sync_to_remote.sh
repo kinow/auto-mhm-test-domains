@@ -10,6 +10,10 @@ scp mhm.sif %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SC
 
 echo "Copying the mhm namelist files vi scp: %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%"
 
-scp mhm.nml mhm_outputs.nml mhm_parameter.nml %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%
+scp mhm.nml \
+    mhm_outputs.nml \
+    mhm_parameter.nml \
+    plot.py \
+    %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%
 
 echo "SYNC_TO_REMOTE complete!"
