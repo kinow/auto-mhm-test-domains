@@ -34,38 +34,38 @@ JOBS:
     FILE: templates/sim.sh
     PLATFORM: remote
     RUNNING: date
-    DEPENDENCIES: REMOTE_SETUP
+#    DEPENDENCIES: REMOTE_SETUP
     TITLE: 'Simulation'
     DOC: |
       This is the main task of the workflow. It
       will replace the period dates in the test
       mhm.nml creating a new file to be used in
       the simulation with mHM (--nml).
-  GRAPH:
-    FILE: templates/graph.sh
-    PLATFORM: remote
-    RUNNING: date
-    DEPENDENCIES: SIM
-    TITLE: 'Plot graph'
-    DOC: |
-      This is the step in the simulation, where
-      we plot the graphs for mHM.
-  SYNC_FROM_REMOTE:
-    FILE: templates/sync_from_remote.sh
-    PLATFORM: local
-    RUNNING: once
-    DEPENDENCIES: GRAPH
-    TITLE: 'Synchronize remote data to local platform'
-    DOC: |
-      This task copies remote data produced by mHM
-      to the local platform.
-  CLEAN:
-    FILE: templates/clean.sh
-    PLATFORM: remote
-    RUNNING: once
-    DEPENDENCIES: SYNC_FROM_REMOTE
-    TITLE: 'Clean files'
-    DOC: |
-      The very final step. It will stop and clean
-      the containers used for this simulation. It
-      will also delete the output files of mHM.
+#  GRAPH:
+#    FILE: templates/graph.sh
+#    PLATFORM: remote
+#    RUNNING: date
+#    DEPENDENCIES: SIM
+#    TITLE: 'Plot graph'
+#    DOC: |
+#      This is the step in the simulation, where
+#      we plot the graphs for mHM.
+#  SYNC_FROM_REMOTE:
+#    FILE: templates/sync_from_remote.sh
+#    PLATFORM: local
+#    RUNNING: once
+#    DEPENDENCIES: GRAPH
+#    TITLE: 'Synchronize remote data to local platform'
+#    DOC: |
+#      This task copies remote data produced by mHM
+#      to the local platform.
+#  CLEAN:
+#    FILE: templates/clean.sh
+#    PLATFORM: remote
+#    RUNNING: once
+#    DEPENDENCIES: SYNC_FROM_REMOTE
+#    TITLE: 'Clean files'
+#    DOC: |
+#      The very final step. It will stop and clean
+#      the containers used for this simulation. It
+#      will also delete the output files of mHM.
