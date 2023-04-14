@@ -38,22 +38,22 @@ JOBS:
     #       the number of SIM jobs running in parallel.
     #       But this would not be necessary if mHM
     #       had an option to choose the output folder.
-    DEPENDENCIES: REMOTE_SETUP SIM-1
+    DEPENDENCIES: REMOTE_SETUP
     TITLE: 'Simulation'
     DOC: |
       This is the main task of the workflow. It
       will replace the period dates in the test
       mhm.nml creating a new file to be used in
       the simulation with mHM (--nml).
-#  GRAPH:
-#    FILE: templates/graph.sh
-#    PLATFORM: remote
-#    RUNNING: date
-#    DEPENDENCIES: SIM
-#    TITLE: 'Plot graph'
-#    DOC: |
-#      This is the step in the simulation, where
-#      we plot the graphs for mHM.
+  GRAPH:
+    FILE: templates/graph.sh
+    PLATFORM: remote
+    RUNNING: date
+    DEPENDENCIES: SIM
+    TITLE: 'Plot graph'
+    DOC: |
+      This is the step in the simulation, where
+      we plot the graphs for mHM.
 #  SYNC_FROM_REMOTE:
 #    FILE: templates/sync_from_remote.sh
 #    PLATFORM: local
