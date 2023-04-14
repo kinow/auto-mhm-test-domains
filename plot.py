@@ -30,6 +30,7 @@ def main():
             da.plot()
             output_file = output_path / f'frame_{t}.png'
             plt.savefig(str(output_file))
+            plt.close()
 
 
 if __name__ == '__main__':
