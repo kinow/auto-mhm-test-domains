@@ -8,16 +8,18 @@ cd %PLATFORMS.REMOTE.SCRATCH_DIR%
 # https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository
 # https://askubuntu.com/questions/460885/how-to-clone-only-some-directories-from-a-git-repository
 
-mkdir data
-cd data
-git init
-git remote add -f upstream https://github.com/mhm-ufz/mHM.git
+if [[ ! -d "data" ]]; then
+  mkdir data
+  cd data
+  git init
+  git remote add -f upstream https://github.com/mhm-ufz/mHM.git
 
-git config core.sparseCheckout true
+  git config core.sparseCheckout true
 
-echo "test_domain/" >> .git/info/sparse-checkout
-echo "test_domain_2/" >> .git/info/sparse-checkout
+  echo "test_domain/" >> .git/info/sparse-checkout
+  echo "test_domain_2/" >> .git/info/sparse-checkout
 
-git pull upstream v5.12.0
+  git pull upstream v5.12.0
+fi
 
 echo "REMOTE_SETUP complete!"
