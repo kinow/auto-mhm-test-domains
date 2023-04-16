@@ -9,6 +9,7 @@ cd %PLATFORMS.REMOTE.SCRATCH_DIR%
 # https://askubuntu.com/questions/460885/how-to-clone-only-some-directories-from-a-git-repository
 
 if [[ ! -d "data" ]]; then
+  echo "Creating the data directories by cloning it from mHM Git repository"
   mkdir data
   cd data
   git init
@@ -21,5 +22,26 @@ if [[ ! -d "data" ]]; then
 
   git pull upstream v5.12.0
 fi
+
+cd %PLATFORMS.REMOTE.SCRATCH_DIR%
+
+# Create Singularity sandboxes
+echo "Creating singularity sandboxes"
+for START_DATE in %EXPERIMENT.DATELIST%
+do
+  EVAL_PERIOD_START="${START_DATE:0:4}"
+  EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
+  EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
+  echo "Copying data directory for the start date ${EVAL_PERIOD_START}, to data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+  MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+  cp -r data "${MHM_DATA_DIR}"
+
+  MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+  echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+  if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
+    echo "Creating new singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+    singularity build --sandbox "${MHM_SINGULARITY_SANDBOX_DIR}" mhm.sif
+  fi
+done
 
 echo "REMOTE_SETUP complete!"

@@ -38,7 +38,7 @@ JOBS:
     #       the number of SIM jobs running in parallel.
     #       But this would not be necessary if mHM
     #       had an option to choose the output folder.
-    DEPENDENCIES: REMOTE_SETUP
+    DEPENDENCIES: REMOTE_SETUP SIM-1
     TITLE: 'Simulation'
     DOC: |
       This is the main task of the workflow. It
@@ -49,7 +49,7 @@ JOBS:
     FILE: templates/graph.sh
     PLATFORM: remote
     RUNNING: date
-    DEPENDENCIES: SIM
+    DEPENDENCIES: SIM SIM-1
     TITLE: 'Plot graph'
     DOC: |
       This is the step in the simulation, where

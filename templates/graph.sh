@@ -14,12 +14,15 @@ EVAL_PERIOD_START="${START_DATE:0:4}"
 EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
 EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
 
+MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+
 echo "Plotting PNG files for each timestep of the PET variable in the mHM_Fluxes_States.nc output file"
 
 function plot() {
   local OUTPUT_FOLDER=$1
   echo "Output folder is: ${OUTPUT_FOLDER}"
-  singularity exec mhm.sif /opt/conda/bin/python plot.py \
+  singularity exec "${MHM_SINGULARITY_SANDBOX_DIR}" /opt/conda/bin/python plot.py \
       --variable "PET" \
       --input "${OUTPUT_FOLDER}/mHM_Fluxes_States.nc" \
       --output "${OUTPUT_FOLDER}"
@@ -38,7 +41,7 @@ function plot() {
       "${OUTPUT_FOLDER_BASENAME}"
 }
 
-plot "data/test_domain/output_b1/"
-plot "data/test_domain_2/output/"
+plot "${MHM_DATA_DIR}/test_domain/output_b1/"
+plot "${MHM_DATA_DIR}/test_domain_2/output/"
 
 echo "GRAPH complete!"
