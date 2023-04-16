@@ -8,12 +8,8 @@ echo "Copying the mHM Singularity image mhm.sif via scp: %PLATFORMS.REMOTE.USER%
 
 scp mhm.sif %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%
 
-echo "Copying the mhm namelist files vi scp: %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%"
+echo "Copying the plot script via scp: %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%"
 
-scp mhm.nml \
-    mhm_outputs.nml \
-    mhm_parameter.nml \
-    plot.py \
-    %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%
+scp plot.py %PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%:%PLATFORMS.REMOTE.SCRATCH_DIR%
 
 echo "SYNC_TO_REMOTE complete!"

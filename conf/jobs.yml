@@ -63,13 +63,13 @@ JOBS:
     DOC: |
       This task copies remote data produced by mHM
       to the local platform.
-#  CLEAN:
-#    FILE: templates/clean.sh
-#    PLATFORM: remote
-#    RUNNING: once
-#    DEPENDENCIES: SYNC_FROM_REMOTE
-#    TITLE: 'Clean files'
-#    DOC: |
-#      The very final step. It will stop and clean
-#      the containers used for this simulation. It
-#      will also delete the output files of mHM.
+  CLEAN:
+    FILE: templates/clean.sh
+    PLATFORM: remote
+    RUNNING: once
+    DEPENDENCIES: SYNC_FROM_REMOTE
+    TITLE: 'Clean remote files'
+    DOC: |
+      The very final step. It will stop and clean
+      the containers used for this simulation. It
+      will also delete the output files of mHM.

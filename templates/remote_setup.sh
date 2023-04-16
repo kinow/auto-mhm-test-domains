@@ -19,8 +19,13 @@ if [[ ! -d "data" ]]; then
 
   echo "test_domain/" >> .git/info/sparse-checkout
   echo "test_domain_2/" >> .git/info/sparse-checkout
+  echo "mhm.nml" >> .git/info/sparse-checkout
+  echo "mhm_outputs.nml" >> .git/info/sparse-checkout
+  echo "mhm_parameter.nml" >> .git/info/sparse-checkout
+  echo "mrm_outputs.nml" >> .git/info/sparse-checkout
 
   git pull upstream v5.12.0
+  mv *.nml ../
 fi
 
 cd %PLATFORMS.REMOTE.SCRATCH_DIR%
