@@ -54,15 +54,15 @@ JOBS:
     DOC: |
       This is the step in the simulation, where
       we plot the graphs for mHM.
-#  SYNC_FROM_REMOTE:
-#    FILE: templates/sync_from_remote.sh
-#    PLATFORM: local
-#    RUNNING: once
-#    DEPENDENCIES: GRAPH
-#    TITLE: 'Synchronize remote data to local platform'
-#    DOC: |
-#      This task copies remote data produced by mHM
-#      to the local platform.
+  SYNC_FROM_REMOTE:
+    FILE: templates/sync_from_remote.sh
+    PLATFORM: local
+    RUNNING: once
+    DEPENDENCIES: GRAPH
+    TITLE: 'Synchronize remote data to local platform'
+    DOC: |
+      This task copies remote data produced by mHM
+      to the local platform.
 #  CLEAN:
 #    FILE: templates/clean.sh
 #    PLATFORM: remote
