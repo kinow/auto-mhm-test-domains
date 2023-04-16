@@ -35,13 +35,17 @@ function plot() {
   echo "Output folder parent is: ${OUTPUT_FOLDER_PARENT}"
   local OUTPUT_FOLDER_BASENAME=$(basename "${OUTPUT_FOLDER}")
   echo "Output folder basename is: ${OUTPUT_FOLDER_BASENAME}"
+  local TAR_FILE="mhm_output_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.tar.gz"
   tar \
-      -zcvf "mhm_output_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.tar.gz" \
-      -C "${OUTPUT_FOLDER_PARENT}" \
-      "${OUTPUT_FOLDER_BASENAME}"
+    -zcvf "mhm_output_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.tar.gz" \
+    -C "${OUTPUT_FOLDER_PARENT}" \
+    "${OUTPUT_FOLDER_BASENAME}"
+  echo "Copying GIF to directory: ${PWD}"
+  cp "${OUTPUT_FOLDER}/plot_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.gif" .
 }
 
-plot "${MHM_DATA_DIR}/test_domain/output_b1/"
+# TODO: Do we need to plot the output_b1 too?
+# plot "${MHM_DATA_DIR}/test_domain/output_b1/"
 plot "${MHM_DATA_DIR}/test_domain_2/output/"
 
 echo "GRAPH complete!"

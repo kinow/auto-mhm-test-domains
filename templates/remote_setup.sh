@@ -32,16 +32,18 @@ do
   EVAL_PERIOD_START="${START_DATE:0:4}"
   EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
   EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
-  echo "Copying data directory for the start date ${EVAL_PERIOD_START}, to data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
   MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-  cp -r data "${MHM_DATA_DIR}"
-
-  MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-  echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
-  if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
-    echo "Creating new singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
-    singularity build --sandbox "${MHM_SINGULARITY_SANDBOX_DIR}" mhm.sif
+  if [[ ! -d "${MHM_DATA_DIR}" ]]; then
+    echo "Copying data directory for the start date ${EVAL_PERIOD_START}, to data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+    cp -r data "${MHM_DATA_DIR}"
   fi
+
+MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
+  echo "Creating new singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+  singularity build --sandbox "${MHM_SINGULARITY_SANDBOX_DIR}" mhm.sif
+fi
 done
 
 echo "REMOTE_SETUP complete!"
