@@ -58,7 +58,7 @@ read the license at the [`LICENSE.txt`][license] file.
 The license applies only to the workflow configuration and code,
 and not to the rest of the code and tools used.
 
-Please, notice that:
+Please, note that:
 
 - Autosubmit is licensed under the GNU Public License v3.
 - mHM is licensed under the GNU Public License v3.
