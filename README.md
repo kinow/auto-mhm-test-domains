@@ -28,7 +28,7 @@ In order to run this workflow you will need the following:
 3. Autosubmit 4.x
 4. Docker & Singularity 3.11.x for containers
 
-For a list of software used, besides `mHM`, see the `Dockerfile`.
+For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 
 ## The workflow
 
