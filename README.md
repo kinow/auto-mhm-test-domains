@@ -1,7 +1,7 @@
 # Autosubmit mHM workflow with mHM test domains data
 
-This repository contains the configuration for an Autosubmit
-workflow that runs mHM, the mesoscale hydrological model, using
+This repository contains the configuration for an [Autosubmit][autosubmit]
+workflow that runs [mHM][mhm], the mesoscale hydrological model, using
 the mHM test domain data. A Docker container is used to run mHM.
 
 <div>
@@ -61,3 +61,5 @@ TODO: document the `rocrate.json` used to help populating the
 and outputs)…
 
 [autosubmit]: https://autosubmit.readthedocs.io/
+[mhm]: https://mhm.pages.ufz.de/mhm/stable/
+[dockerfile]: ./Dockerfile
