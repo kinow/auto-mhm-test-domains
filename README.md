@@ -1,8 +1,13 @@
 # Autosubmit mHM workflow with mHM test domains data
 
 This repository contains the configuration for an Autosubmit
-workflow that runs mHM with its test domain data. A Docker
-container is used to run mHM.
+workflow that runs mHM, the mesoscale hydrological model, using
+the mHM test domain data. A Docker container is used to run mHM.
+
+<div>
+  <img src="./docs/plot_1991_1993.gif" style="max-width: 400px;" />
+  <img src="./docs/plot_1993_1995.gif" style="max-width: 400px;" />
+</div>
 
 ## Prerequisites
 
@@ -54,3 +59,5 @@ TODO: Add OSI license file and link it here.
 TODO: document the `rocrate.json` used to help populating the
 `ro-crate-metadata.json` (partials, with license, author, inputs,
 and outputs)…
+
+[autosubmit]: https://autosubmit.readthedocs.io/
