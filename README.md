@@ -30,7 +30,7 @@ In order to run this workflow you will need the following:
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 
-## The workflow
+## Workflow
 
 An Autosubmit workflow created with
 `autosubmit expid -H local -d "mHM" -min -git https://github.com/kinow/auto-mhm-test-domains.git`
@@ -40,6 +40,8 @@ when triggered will clone this repository, and prepare the Docker
 each start date (as the mHM simulation period date). Finally, the
 workflow plots the data before cleaning the simulation logs and
 files.
+
+<img src="./docs/mhm-workflow-graph.png" style="max-width: 400px; max-height: 400px;" />
 
 The plots are copied back to the local workflow folder, and
 everything can be used to package an RO-Crate.
