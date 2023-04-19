@@ -52,7 +52,16 @@ TODO: document commands used to run and monitor the workflow. It
 
 ## License
 
-TODO: Add OSI license file and link it here.
+This workflow is licensed under the Apache License v2. You can
+read the license at the [`LICENSE.txt`][license] file.
+
+The license applies only to the workflow configuration and code,
+and not to the rest of the code and tools used.
+
+Please, notice that:
+
+- Autosubmit is licensed under the GNU Public License v3.
+- mHM is licensed under the GNU Public License v3.
 
 ## RO-Crate
 
@@ -63,3 +72,4 @@ and outputs)…
 [autosubmit]: https://autosubmit.readthedocs.io/
 [mhm]: https://mhm.pages.ufz.de/mhm/stable/
 [dockerfile]: ./Dockerfile
+[license]: ./LICENSE.txt
