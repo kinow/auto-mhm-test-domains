@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  shellcheck:
+    runs-on: latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            shellcheck
+      - name: Run shellcheck over all Shell files on this repository
+        run: |
+          find . -name "*.sh" -exec shellcheck --severity=style {} \;
