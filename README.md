@@ -52,6 +52,12 @@ TODO: document commands used to run and monitor the workflow. It
       must include a step-by-step to re-run the workflow and get
       the same result (i.e. same RO-Crate described at the end.)
 
+## RO-Crate
+
+TODO: document the `rocrate.json` used to help populating the
+`ro-crate-metadata.json` (partials, with license, author, inputs,
+and outputs)…
+
 ## License
 
 This workflow is licensed under the Apache License v2. You can
@@ -64,12 +70,6 @@ Please, note that:
 
 - Autosubmit is licensed under the GNU Public License v3.
 - mHM is licensed under the GNU Public License v3.
-
-## RO-Crate
-
-TODO: document the `rocrate.json` used to help populating the
-`ro-crate-metadata.json` (partials, with license, author, inputs,
-and outputs)…
 
 [autosubmit]: https://autosubmit.readthedocs.io/
 [mhm]: https://mhm.pages.ufz.de/mhm/stable/
