@@ -4,6 +4,10 @@ This repository contains the configuration for an [Autosubmit][autosubmit]
 workflow that runs [mHM][mhm], the mesoscale hydrological model, using
 the mHM test domain data. A Docker container is used to run mHM.
 
+The two images below were created using the workflow in this
+repository, and running the [`plot.py`][plotpy] script (it uses
+Xarray and Matplotlib to parse the NetCDF test output).
+
 <div>
   <img src="./docs/plot_1991_1993.gif" style="max-width: 400px;" />
   <img src="./docs/plot_1993_1995.gif" style="max-width: 400px;" />
@@ -138,3 +142,4 @@ Please, note that:
 [mhm]: https://mhm.pages.ufz.de/mhm/stable/
 [dockerfile]: ./Dockerfile
 [license]: ./LICENSE.txt
+[plotpy]: ./plot.py
