@@ -25,7 +25,7 @@ In order to run this workflow you will need the following:
 
 1. Internet connection
 2. Linux
-3. Autosubmit 4.x
+3. Autosubmit 4.x (e.g. `pip install autosubmit`)
 4. Docker & Singularity 3.11.x for containers
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
@@ -48,9 +48,72 @@ everything can be used to package an RO-Crate.
 
 ## Running
 
-TODO: document commands used to run and monitor the workflow. It
-      must include a step-by-step to re-run the workflow and get
-      the same result (i.e. same RO-Crate described at the end.)
+You will need an Autosubmit experiment first, so that you
+can import the configuration files from this repository.
+Run the following command to create a new Autosubmit experiment.
+
+```bash
+autosubmit expid \
+    --HPC "local" \
+    --description "Autosubmit mHM test domains" \
+    --minimal_configuration \
+    --git_as_conf conf \
+    --git_repo https://github.com/kinow/auto-mhm-test-domains.git \
+    --git_branch master
+```
+
+That will create a new experiment, using local SSH connections
+(it is using the default “local” platform), and on the first
+execution of `create`, it will clone the Git repository specified
+and load the configuration from its `git_as_conf` subdirectory.
+
+> NOTE: the output of `autosubmit expid` contains the ID of an
+>       experiment. Replace `$expid` by that value in the next
+>       commands.
+
+The next command is to prepare the experiment workflow (i.e.
+parse the configuration and produce a workflow graph, prepare
+jobs, etc.):
+
+```bash
+autosubmit create $expid
+```
+
+If everything goes well you should see the workflow graph plot
+appear on your screen, if you have an X server running. Close the
+PDF and run the workflow.
+
+```bash
+autosubmit run $expid
+```
+
+That will execute the complete workflow of your Autosubmit
+experiment. If you used `nohup`, or if you have another
+command-line terminal, you can monitor the execution of
+the workflow with the following commands:
+
+```bash
+# plot a new PDF with the progress of your workflow
+autosubmit monitor $expid
+# print the output logs of your workflow
+autosubmit cat-log --file o $expid
+# print the error logs of your workflow, in `tail -f` mode
+autosubmit cat-log --file o --mode e $expid
+```
+
+And if you are using a version of Autosubmit that supports
+RO-Crate, you can create an archive with the provenance
+metadata file, the workflow configuration, plots, logs, and
+other traces included.
+
+```bash
+autosubmit archive --rocrate $expid
+```
+
+> NOTE: If you use RO-Crate, you will have to provide a
+>       JSON-LD file with extra metadata about your
+>       experiment and workflow to have a more complete
+>       RO-Crate file (using the Workflow Run Crate Profile).
 
 ## RO-Crate
 
