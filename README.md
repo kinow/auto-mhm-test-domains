@@ -20,8 +20,9 @@ under the License.
 # Autosubmit mHM workflow with mHM test domains data
 
 This repository contains the configuration for an [Autosubmit][autosubmit]
-workflow that runs [mHM][mhm], the mesoscale hydrological model, using
-the mHM test domain data. A Docker container is used to run mHM.
+experiment that runs [mHM][mhm], the mesoscale hydrological model, using
+the mHM test domain data in a workflow. A Docker container is used to install
+the dependencies and run mHM.
 
 The two images below were created using the workflow in this
 repository, and running the [`plot.py`][plotpy] script (it uses
@@ -44,7 +45,8 @@ NOTE: With CWL you can list the software requirements for a computational
       in Autosubmit (like a standard way of defining it?).
 -->
 
-In order to run this workflow you will need the following:
+In order to run the workflow you will need the following
+prerequisites:
 
 1. Internet connection
 2. Linux
@@ -55,14 +57,14 @@ For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 
 ## Workflow
 
-An Autosubmit workflow created with
+An Autosubmit experiment created with
 `autosubmit expid -H local -d "mHM" -min -git https://github.com/kinow/auto-mhm-test-domains.git`
-when triggered will clone this repository, and prepare the Docker
-& Singularity containers, transfer over to the remote platform
-(can be `localhost` for testing) and execute the mHM model for
-each start date (as the mHM simulation period date). Finally, the
-workflow plots the data before cleaning the simulation logs and
-files.
+when run will clone this Git repository, and prepare the Docker
+& Singularity containers, transfer all the required data over to
+the remote platform (it can be `localhost` for testing) and execute
+the mHM model for each start date (as the mHM simulation period date).
+The last tasks in the workflow will plot the data before cleaning the
+simulation logs and files.
 
 <img src="./docs/mhm-workflow-graph.png" style="max-width: 400px; max-height: 400px;" />
 
@@ -72,7 +74,7 @@ everything can be used to package an RO-Crate.
 ## Running
 
 You will need an Autosubmit experiment first, so that you
-can import the configuration files from this repository.
+can import the configuration files from this Git repository.
 Run the following command to create a new Autosubmit experiment.
 
 ```bash
@@ -85,26 +87,27 @@ autosubmit expid \
     --git_branch master
 ```
 
-That will create a new experiment, using local SSH connections
-(it is using the default “local” platform), and on the first
-execution of `create`, it will clone the Git repository specified
-and load the configuration from its `git_as_conf` subdirectory.
+This will create a new experiment, using local SSH connections
+(as the command is using the default “local” platform), and on
+the first execution of `autosubmit create`, it will clone the
+Git repository specified and load the configuration from the
+subdirectory specified in the `git_as_conf` parameter.
 
-> NOTE: the output of `autosubmit expid` contains the ID of an
+> NOTE: The output of `autosubmit expid` contains the ID of an
 >       experiment. Replace `$expid` by that value in the next
 >       commands.
 
 The next command is to prepare the experiment workflow (i.e.
-parse the configuration and produce a workflow graph, prepare
-jobs, etc.):
+parse and validate its configuration and produce a workflow graph,
+prepare jobs and scripts, etc.):
 
 ```bash
 autosubmit create $expid
 ```
 
 If everything goes well you should see the workflow graph plot
-appear on your screen, if you have an X server running. Close the
-PDF and run the workflow.
+appear on your screen (if you have an X server running). Close
+the PDF and now run the workflow with the following command:
 
 ```bash
 autosubmit run $expid
@@ -123,6 +126,11 @@ autosubmit cat-log --file o $expid
 # print the error logs of your workflow, in `tail -f` mode
 autosubmit cat-log --file o --mode e $expid
 ```
+
+> NOTE: Autosubmit commands produce log files on disk
+>       for traceability. You can increase the log levels
+>       with the `-lf` (log file) and `lc` (log console)
+>       parameter flags.
 
 And if you are using a version of Autosubmit that supports
 RO-Crate, you can create an archive with the provenance
@@ -147,7 +155,7 @@ and outputs)…
 ## License
 
 This workflow is licensed under the Apache License v2. You can
-read the license at the [`LICENSE.txt`][license] file.
+find the complete license at the file [`LICENSE.txt`][license].
 
 The license applies only to the workflow configuration and code,
 and not to the rest of the code and tools used.
