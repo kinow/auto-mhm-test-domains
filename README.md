@@ -50,7 +50,7 @@ prerequisites:
 
 1. Internet connection
 2. Linux
-3. Autosubmit 4.x (e.g. `pip install autosubmit`)
+3. Autosubmit 4.0.76 (e.g. `pip install autosubmit==4.0.76`)
 4. Docker & Singularity 3.11.x for containers
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
