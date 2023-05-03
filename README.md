@@ -52,8 +52,14 @@ prerequisites:
 2. Linux
 3. Autosubmit 4.0.76 (e.g. `pip install autosubmit==4.0.76`)
 4. Docker & Singularity 3.11.x for containers
+5. password-less `sudo` for the user running Autosubmit (as it will
+   try to create the container as part of the workflow)
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
+
+> NOTE: You can use `visudo`, for example, to enable password-less
+>       `sudo` when building Singularity containers:
+>       `<MY-USER> ALL = NOPASSWD: /usr/local/bin/singularity`
 
 ## Workflow
 
