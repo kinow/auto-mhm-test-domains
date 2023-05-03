@@ -59,7 +59,7 @@ For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 
 > NOTE: You can use `visudo`, for example, to enable password-less
 >       `sudo` when building Singularity containers:
->       `<MY-USER> ALL = NOPASSWD: /usr/local/bin/singularity`
+>       `<MY-USER> ALL=(ALL) NOPASSWD:/usr/local/bin/singularity`
 
 ## Workflow
 
