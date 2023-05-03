@@ -29,8 +29,8 @@ repository, and running the [`plot.py`][plotpy] script (it uses
 Xarray and Matplotlib to parse the NetCDF test output).
 
 <div>
-  <img src="./docs/plot_1991_1993.gif" style="max-width: 400px;" />
-  <img src="./docs/plot_1993_1995.gif" style="max-width: 400px;" />
+  <img src="./docs/plot_1991_1993.gif" style="max-width: 400px;" alt="mHM plot 1991-1993" />
+  <img src="./docs/plot_1993_1995.gif" style="max-width: 400px;" alt="mHM plot 1993-1995" />
 </div>
 
 ## Prerequisites
@@ -66,7 +66,7 @@ the mHM model for each start date (as the mHM simulation period date).
 The last tasks in the workflow will plot the data before cleaning the
 simulation logs and files.
 
-<img src="./docs/mhm-workflow-graph.png" style="max-width: 400px; max-height: 400px;" />
+<img src="./docs/mhm-workflow-graph.png" style="max-width: 400px; max-height: 400px;"  alt="mHM workflow graph"/>
 
 The plots are copied back to the local workflow folder, and
 everything can be used to package an RO-Crate.
