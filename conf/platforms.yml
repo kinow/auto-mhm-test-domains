@@ -18,13 +18,13 @@
 PLATFORMS:
   LOCAL:
     TYPE: ps
-    HOST: localhost
-    USER: kinow
+    HOST: <LOCAL_HOST>
+    USER: <USER>
     ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: /tmp/local/
+    SCRATCH_DIR: <LOCAL_SCRATCH_DIR>
   REMOTE:
     TYPE: ps
-    HOST: localhost
-    USER: kinow
+    HOST: <REMOTE_HOST>
+    USER: <USER>
     ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: /tmp/remote/
+    SCRATCH_DIR: <REMOTE_SCRATCH_DIR>

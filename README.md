@@ -97,6 +97,44 @@ subdirectory specified in the `git_as_conf` parameter.
 >       experiment. Replace `$expid` by that value in the next
 >       commands.
 
+The `platforms.yml` file in this repository contains placeholders
+like `<USER>`, `<REMOTE_HOST>`, etc., that must be filled in before
+the workflow can be used. Alternatively, you can edit your `minimal.yml`
+and add the following:
+
+```yaml
+# File: ~/autosubmit/$expid/conf/minimal.yml
+
+CONFIG:
+  # ...
+DEFAULT:
+  # ...
+  CUSTOM_CONFIG:
+    PRE:
+      - "%PROJDIR%/conf"
+    POST:
+      - "~/.config/autosubmit/platforms.yml"
+```
+
+And in your `~/.config/autosubmit/platforms.yml`, you can write the
+correct values. As an example:
+
+```yaml
+PLATFORMS:
+  LOCAL:
+    TYPE: ps
+    HOST: localhost
+    USER: kinow
+    ADD_PROJECT_TO_HOST: false
+    SCRATCH_DIR: /tmp/local/
+  REMOTE:
+    TYPE: ps
+    HOST: localhost
+    USER: kinow
+    ADD_PROJECT_TO_HOST: false
+    SCRATCH_DIR: /tmp/remote/
+```
+
 The next command is to prepare the experiment workflow (i.e.
 parse and validate its configuration and produce a workflow graph,
 prepare jobs and scripts, etc.):
