@@ -61,11 +61,21 @@ For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 >       `sudo` when building Singularity containers:
 >       `<MY-USER> ALL=(ALL) NOPASSWD:/usr/local/bin/singularity`
 
-## Build the Docker image
+## Build the containers
+
+To build the Docker container image first, use this command.
 
 ```bash
 sudo docker build --no-cache=true --tag "auto-mhm-test-domains/mhm:v5.12.1.dev228" .
 ```
+
+Now, to build the Singularity container, using the Docker container image, use this command.
+
+```bash
+sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
+```
+
+**NOTE**: The workflow expects the `mhm.sif` Singularity file to exist in the remote host.
 
 ## Workflow
 
@@ -146,6 +156,9 @@ PLATFORMS:
     ADD_PROJECT_TO_HOST: false
     SCRATCH_DIR: /tmp/remote/
 ```
+
+Remember to copy the `mhm.sif` Singularity file to the remote host
+scratch directory (`/tmp/remote` in the example above).
 
 The next command is to prepare the experiment workflow (i.e.
 parse and validate its configuration and produce a workflow graph,
