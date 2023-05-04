@@ -61,6 +61,12 @@ For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 >       `sudo` when building Singularity containers:
 >       `<MY-USER> ALL=(ALL) NOPASSWD:/usr/local/bin/singularity`
 
+## Build the Docker image
+
+```bash
+sudo docker build --no-cache=true --tag "auto-mhm-test-domains/mhm:v5.12.1.dev228" .
+```
+
 ## Workflow
 
 An Autosubmit experiment created with

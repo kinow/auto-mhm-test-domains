@@ -40,7 +40,7 @@ RUN micromamba install --yes --name base --channel conda-forge \
     matplotlib==3.7.1 && \
     micromamba clean --all --yes
 
-RUN MHM_BUILD_PARALLEL=1 pip install git+https://git.ufz.de/mhm/mhm.git@98c8466e07cc1b5a9cfd98a7a6f699526a11d260 --no-deps --no-build-isolation -vv
+RUN MHM_BUILD_PARALLEL=1 /opt/conda/bin/pip install git+https://git.ufz.de/mhm/mhm.git@98c8466e07cc1b5a9cfd98a7a6f699526a11d260 --no-deps --no-build-isolation -vv
 
 WORKDIR /
 CMD ["mhm"]
