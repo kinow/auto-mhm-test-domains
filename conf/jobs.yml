@@ -22,7 +22,7 @@ JOBS:
     RUNNING: once
     TITLE: 'Synchronize local data to remote platform'
     DOC: |
-      This task sychronizes the local files with
+      This task synchronizes the local files with
       the remote platform. More specifically, it
       will `scp` the singularity image.
   REMOTE_SETUP:
