@@ -18,13 +18,29 @@
 FROM mambaorg/micromamba:bullseye-slim
 
 RUN micromamba install --yes --name base --channel conda-forge \
+    fypp==3.1 \
+    cmake==3.26.3 \
+    ninja==1.11.1 \
+    netcdf-fortran==4.6.0 \
+    fortran-compiler==1.5.2 \
+    c-compiler==1.5.2 \
+    cxx-compiler==1.5.2 \
+    libgomp==12.2.0 \
+    pip==23.1.2 \
+    setuptools==63.4.3 \
+    setuptools-scm==7.1.0 \
+    scikit-build==0.16.7 \
+    f90nml==1.4.3 \
+    git==2.40.1 \
     python==3.10 \
+    numpy==1.21.6 \
     imagemagick==7.1.1_6 \
-    mHM==5.12.0 \
     xarray==2023.3.0 \
     netcdf4==1.6.3 \
     matplotlib==3.7.1 && \
     micromamba clean --all --yes
+
+RUN MHM_BUILD_PARALLEL=1 pip install git+https://git.ufz.de/mhm/mhm.git@98c8466e07cc1b5a9cfd98a7a6f699526a11d260 --no-deps --no-build-isolation -vv
 
 WORKDIR /
 CMD ["mhm"]
