@@ -21,6 +21,8 @@ set -eux -o pipefail
 
 cd %PLATFORMS.REMOTE.SCRATCH_DIR%
 
+singularity inspect --all mhm.sif
+
 # git clone only the directories for mHM test data
 # https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository
 # https://askubuntu.com/questions/460885/how-to-clone-only-some-directories-from-a-git-repository

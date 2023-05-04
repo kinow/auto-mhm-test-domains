@@ -16,23 +16,10 @@
 # under the License.
 
 JOBS:
-  LOCAL_SETUP:
-    FILE: templates/local_setup.sh
-    PLATFORM: local
-    RUNNING: once
-    TITLE: 'Local setup'
-    DOC: |
-      This task will use the project's Dockerfile
-      to create a local Docker container and then
-      using that first container it will create a
-      second Singularity container with mHM. Once
-      the second container has been created, then
-      the Docker image is removed to save space.
   SYNC_TO_REMOTE:
     FILE: templates/sync_to_remote.sh
     PLATFORM: local
     RUNNING: once
-    DEPENDENCIES: LOCAL_SETUP
     TITLE: 'Synchronize local data to remote platform'
     DOC: |
       This task sychronizes the local files with
