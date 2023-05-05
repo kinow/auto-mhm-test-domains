@@ -31,14 +31,15 @@ if [[ ! -d "data" ]]; then
   echo "Creating the data directories by cloning it from mHM Git repository"
 
   singularity run mhm.sif mhm-download -b master -d 1 -p data
-fi
 
-cd %PLATFORMS.REMOTE.SCRATCH_DIR%
+  cp ./*.nml ./data
+fi
 
 # Create Singularity sandboxes
 echo "Creating singularity sandboxes"
 for START_DATE in %EXPERIMENT.DATELIST%
 do
+  cd %PLATFORMS.REMOTE.SCRATCH_DIR%
   EVAL_PERIOD_START="${START_DATE:0:4}"
   EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
   EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
@@ -46,14 +47,19 @@ do
   if [[ ! -d "${MHM_DATA_DIR}" ]]; then
     echo "Copying data directory for the start date ${EVAL_PERIOD_START}, to data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
     cp -r data "${MHM_DATA_DIR}"
+    cd "${MHM_DATA_DIR}"
+    mv mhm.nml "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
   fi
 
-MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
-if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
-  echo "Creating new singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
-  singularity build --sandbox "${MHM_SINGULARITY_SANDBOX_DIR}" mhm.sif
-fi
+  MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+  echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+  if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
+    echo "Creating new singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
+    singularity build --sandbox "${MHM_SINGULARITY_SANDBOX_DIR}" mhm.sif
+  fi
 done
 
 echo "REMOTE_SETUP complete!"
