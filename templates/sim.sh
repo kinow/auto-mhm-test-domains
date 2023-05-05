@@ -36,13 +36,13 @@ MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
 
 echo "Running mHM simulation with eval period start [${EVAL_PERIOD_START}] and end [${EVAL_PERIOD_END}]"
 
-cp mhm.nml "data/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "data/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "data/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "data/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i "s|test_domain_2/|${MHM_DATA_DIR}/test_domain_2/|" "data/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+cp mhm.nml "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+sed -i "s|test_domain_2/|${MHM_DATA_DIR}/test_domain_2/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
 
 singularity exec "${MHM_SINGULARITY_SANDBOX_DIR}" /opt/conda/bin/mhm \
-    --nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml" data/
+    --nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml" "${MHM_DATA_DIR}"
 
 echo "SIM complete!"
