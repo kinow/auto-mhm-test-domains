@@ -48,10 +48,10 @@ do
     echo "Copying data directory for the start date ${EVAL_PERIOD_START}, to data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
     cp -r data "${MHM_DATA_DIR}"
     cd "${MHM_DATA_DIR}"
-    mv mhm.nml "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-    sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-    sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-    sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    mv mhm.nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
+    sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
   fi
 
   MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
