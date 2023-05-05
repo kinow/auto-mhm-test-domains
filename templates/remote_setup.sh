@@ -29,22 +29,8 @@ singularity inspect --all mhm.sif
 
 if [[ ! -d "data" ]]; then
   echo "Creating the data directories by cloning it from mHM Git repository"
-  mkdir data
-  cd data
-  git init
-  git remote add -f upstream https://github.com/mhm-ufz/mHM.git
 
-  git config core.sparseCheckout true
-
-  echo "test_domain/" >> .git/info/sparse-checkout
-  echo "test_domain_2/" >> .git/info/sparse-checkout
-  echo "mhm.nml" >> .git/info/sparse-checkout
-  echo "mhm_outputs.nml" >> .git/info/sparse-checkout
-  echo "mhm_parameter.nml" >> .git/info/sparse-checkout
-  echo "mrm_outputs.nml" >> .git/info/sparse-checkout
-
-  git pull upstream v5.12.0
-  mv *.nml ../
+  singularity run mhm.sif mhm-download -b master -d 1 -p data
 fi
 
 cd %PLATFORMS.REMOTE.SCRATCH_DIR%
