@@ -61,8 +61,6 @@ function plot() {
   cp "${OUTPUT_FOLDER}/plot_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.gif" .
 }
 
-# TODO: Do we need to plot the output_b1 too?
-# plot "${MHM_DATA_DIR}/test_domain/output_b1/"
-plot "${MHM_DATA_DIR}/test_domain_2/output/"
+plot "${MHM_DATA_DIR}/output_b1/"
 
 echo "GRAPH complete!"
