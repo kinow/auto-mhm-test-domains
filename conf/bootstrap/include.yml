@@ -1,0 +1,6 @@
+DEFAULT:
+  CUSTOM_CONFIG:
+    PRE:
+      - '%PROJDIR%/conf/'
+    POST:
+      - ~/.config/autosubmit/platforms.yml
