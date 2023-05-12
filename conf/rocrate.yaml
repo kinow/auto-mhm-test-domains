@@ -9,7 +9,45 @@ ROCRATE: |
         },
         "publisher": {
           "@id": "https://ror.org/05sd8tv96"
-        }
+        },
+        "input": [
+          {
+            "@id": "#mhm-input-branch-name"
+          },
+          {
+            "@id": "#mhm-input-domain"
+          },
+          {
+            "@id": "#mhm-input-eval-period-duration-years"
+          }
+        ]
+      },
+      {
+        "@id": "#mhm-input-branch-name",
+        "@type": "FormalParameter",
+        "additionalType": "String",
+        "name": "BRANCH_NAME",
+        "defaultValue": "master",
+        "valueRequired": "True",
+        "description": "The branch name used in mhm-download, to retrieve the test domain data"
+      },
+      {
+        "@id": "#mhm-input-domain",
+        "@type": "FormalParameter",
+        "additionalType": "Integer",
+        "name": "DOMAIN",
+        "defaultValue": 1,
+        "valueRequired": "True",
+        "description": "The ID of the mHM test domain"
+      },
+      {
+        "@id": "#mhm-input-eval-period-duration-years",
+        "@type": "FormalParameter",
+        "additionalType": "Integer",
+        "name": "EVAL_PERIOD_DURATION_YEARS",
+        "defaultValue": 2,
+        "valueRequired": "True",
+        "description": "The duration of the evaluation period, this gets added to the start date for running the simulation"
       },
       {
         "@id": "ro-crate-metadata.json",
