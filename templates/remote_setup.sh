@@ -30,7 +30,7 @@ singularity inspect --all mhm.sif
 if [[ ! -d "data" ]]; then
   echo "Creating the data directories by cloning it from mHM Git repository"
 
-  singularity run mhm.sif mhm-download -b master -d 1 -p data
+  singularity run mhm.sif mhm-download -b %MHM.BRANCH_NAME% -d %MHM.DOMAIN% -p data
 
   cp ./*.nml ./data
 fi
