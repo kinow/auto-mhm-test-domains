@@ -104,7 +104,7 @@ autosubmit expid \
     --HPC "local" \
     --description "Autosubmit mHM test domains" \
     --minimal_configuration \
-    --git_as_conf conf \
+    --git_as_conf conf/bootstrap \
     --git_repo https://github.com/kinow/auto-mhm-test-domains.git \
     --git_branch master
 ```
@@ -121,27 +121,13 @@ subdirectory specified in the `git_as_conf` parameter.
 
 The `platforms.yml` file in this repository contains placeholders
 like `<USER>`, `<REMOTE_HOST>`, etc., that must be filled in before
-the workflow can be used. Alternatively, you can edit your `minimal.yml`
-and add the following:
+the workflow can be used. Alternatively, you can create the
+following file with your platform configuration (replace the
+values by your user account information).
 
 ```yaml
-# File: ~/autosubmit/$expid/conf/minimal.yml
+# File: ~/.config/autosubmit/platforms.yml
 
-CONFIG:
-  # ...
-DEFAULT:
-  # ...
-  CUSTOM_CONFIG:
-    PRE:
-      - "%PROJDIR%/conf"
-    POST:
-      - "~/.config/autosubmit/platforms.yml"
-```
-
-And in your `~/.config/autosubmit/platforms.yml`, you can write the
-correct values. As an example:
-
-```yaml
 PLATFORMS:
   LOCAL:
     TYPE: ps
