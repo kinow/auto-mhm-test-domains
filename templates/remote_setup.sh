@@ -54,6 +54,7 @@ do
     sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
   fi
 
+  cd %PLATFORMS.REMOTE.SCRATCH_DIR%
   MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
   echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
   if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
