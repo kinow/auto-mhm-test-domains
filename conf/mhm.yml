@@ -16,6 +16,6 @@
 # under the License.
 
 MHM:
-  BRANCH_NAME: master
+  BRANCH_NAME: develop
   DOMAIN: 1
   EVAL_PERIOD_DURATION_YEARS: 2
