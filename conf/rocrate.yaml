@@ -1,4 +1,9 @@
 ROCRATE:
+  # INPUT:
+  #   - name: "DATELIST"
+  #     value: "%EXPERIMENT.DATELIST%"
+  #     additionalType: "String"
+  #     valueRequired: "True"
   PATCH: |
     {
       "@graph": [
@@ -10,47 +15,19 @@ ROCRATE:
           },
           "publisher": {
             "@id": "https://ror.org/05sd8tv96"
-          },
-          "input": [
-            {
-              "@id": "#mhm-input-branch-name"
-            },
-            {
-              "@id": "#mhm-input-domain"
-            },
-            {
-              "@id": "#mhm-input-eval-period-duration-years"
-            }
-          ],
-          "output": [],
-          ]
+          }
         },
         {
-          "@id": "#mhm-input-branch-name",
-          "@type": "FormalParameter",
-          "additionalType": "String",
-          "name": "BRANCH_NAME",
-          "defaultValue": "master",
-          "valueRequired": "True",
-          "description": "The branch name used in mhm-download, to retrieve the test domain data"
+            "@id": "https://mhm.pages.ufz.de/mhm/stable/",
+            "@type": "SoftwareApplication",
+            "name": "mHM",
+            "softwareVersion": "5.12.1.dev228"
         },
         {
-          "@id": "#mhm-input-domain",
-          "@type": "FormalParameter",
-          "additionalType": "Integer",
-          "name": "DOMAIN",
-          "defaultValue": 1,
-          "valueRequired": "True",
-          "description": "The ID of the mHM test domain"
-        },
-        {
-          "@id": "#mhm-input-eval-period-duration-years",
-          "@type": "FormalParameter",
-          "additionalType": "Integer",
-          "name": "EVAL_PERIOD_DURATION_YEARS",
-          "defaultValue": 2,
-          "valueRequired": "True",
-          "description": "The duration of the evaluation period, this gets added to the start date for running the simulation"
+          "@id": "#create-action",
+          "@type": "CreateAction",
+          "name": "Run mHM",
+          "instrument": { "@id": "https://mhm.pages.ufz.de/mhm/stable/" }
         },
         {
           "@id": "ro-crate-metadata.json",
@@ -87,5 +64,3 @@ ROCRATE:
         }
       ]
     }
-  OUTPUT:
-    - "%PROJDIR%/*.gif"
