@@ -1,9 +1,9 @@
 ROCRATE:
-  # INPUT:
-  #   - name: "DATELIST"
-  #     value: "%EXPERIMENT.DATELIST%"
-  #     additionalType: "String"
-  #     valueRequired: "True"
+  INPUTS:
+    # Add the extra keys to be exported.
+    - "MHM"
+  OUTPUTS:
+    - "*/*.gif"
   PATCH: |
     {
       "@graph": [
@@ -27,7 +27,8 @@ ROCRATE:
           "@id": "#create-action",
           "@type": "CreateAction",
           "name": "Run mHM",
-          "instrument": { "@id": "https://mhm.pages.ufz.de/mhm/stable/" }
+          "instrument": { "@id": "https://mhm.pages.ufz.de/mhm/stable/" },
+          "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
         },
         {
           "@id": "ro-crate-metadata.json",
