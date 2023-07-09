@@ -30,7 +30,7 @@ singularity inspect --all mhm.sif
 if [[ ! -d "data" ]]; then
   echo "Creating the data directories by cloning it from mHM Git repository"
 
-  singularity run mhm.sif mhm-download -b master -d 1 -p data
+  singularity run mhm.sif mhm-download -b %MHM.BRANCH_NAME% -d %MHM.DOMAIN% -p data
 
   cp ./*.nml ./data
 fi
@@ -54,6 +54,7 @@ do
     sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
   fi
 
+  cd %PLATFORMS.REMOTE.SCRATCH_DIR%
   MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
   echo "Creating singularity sandbox ${MHM_SINGULARITY_SANDBOX_DIR}"
   if [[ ! -d "${MHM_SINGULARITY_SANDBOX_DIR}" ]]; then
