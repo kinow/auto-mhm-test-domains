@@ -18,21 +18,14 @@ ROCRATE:
           }
         },
         {
-            "@id": "https://mhm.pages.ufz.de/mhm/stable/",
-            "@type": "SoftwareApplication",
-            "name": "mHM",
-            "softwareVersion": "5.12.1.dev228"
-        },
-        {
           "@id": "#create-action",
           "@type": "CreateAction",
           "name": "Run mHM",
-          "instrument": { "@id": "https://mhm.pages.ufz.de/mhm/stable/" },
+          "instrument": { "@id": "workflow.yml" },
           "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
         },
         {
           "@id": "ro-crate-metadata.json",
-          "license": "https://spdx.org/licenses/Apache-2.0.html",
           "author": [
             {
               "@id": "https://orcid.org/0000-0001-8250-4074"
@@ -43,7 +36,7 @@ ROCRATE:
           "@id": "https://orcid.org/0000-0001-8250-4074",
           "@type": "Person",
           "affiliation": {
-              "@id": "mailto: https://ror.org/05sd8tv96"
+              "@id": "https://ror.org/05sd8tv96"
           },
           "contactPoint": {
               "@id": "mailto: bruno.depaulakinoshita@bsc.es"
