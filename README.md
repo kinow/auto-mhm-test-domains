@@ -17,6 +17,8 @@ specific language governing permissions and limitations
 under the License.
 -->
 
+[![DOI](https://zenodo.org/badge/624628558.svg)](https://zenodo.org/badge/latestdoi/624628558)
+
 # Autosubmit mHM workflow with mHM test domains data
 
 This repository contains the configuration for an [Autosubmit][autosubmit]
