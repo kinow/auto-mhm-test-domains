@@ -1,0 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: kinow/auto-mhm-test-domains
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Bruno
+    family-names: de Paula Kinoshita
+    email: bruno.depaulakinoshita@bsc.es
+    affiliation: BSC
+    orcid: 'https://orcid.org/0000-0001-8250-4074'
+  - given-names: Sebastian
+    family-names: Müller
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.8144555
+repository-code: 'https://github.com/kinow/auto-mhm-test-domains'
+abstract: >-
+  Repository with an example workflow to run mHM with its
+  test data, using containers
+keywords:
+  - workflow
+  - climate
+  - docker
+  - hydrology
+  - model
+  - autosubmit
+license: GPL-3.0
+commit: 9049f4cf4f2ffe5162f0457571a895d09c05d7b2
+version: v0.4
+date-released: '2023-07-13'
