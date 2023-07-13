@@ -1,0 +1,60 @@
+ROCRATE:
+  INPUTS:
+    # Add the extra keys to be exported.
+    - "MHM"
+  OUTPUTS:
+    - "*/*.gif"
+  PATCH: |
+    {
+      "@graph": [
+        {
+          "@id": "./",
+          "license": "Apache-2.0",
+          "creator": {
+            "@id": "https://orcid.org/0000-0001-8250-4074"
+          },
+          "publisher": {
+            "@id": "https://ror.org/05sd8tv96"
+          }
+        },
+        {
+          "@id": "#create-action",
+          "@type": "CreateAction",
+          "name": "Run mHM",
+          "instrument": { "@id": "workflow.yml" },
+          "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
+        },
+        {
+          "@id": "ro-crate-metadata.json",
+          "author": [
+            {
+              "@id": "https://orcid.org/0000-0001-8250-4074"
+            }
+          ]
+        },
+        {
+          "@id": "https://orcid.org/0000-0001-8250-4074",
+          "@type": "Person",
+          "affiliation": {
+              "@id": "https://ror.org/05sd8tv96"
+          },
+          "contactPoint": {
+              "@id": "mailto: bruno.depaulakinoshita@bsc.es"
+          },
+          "name": "Bruno P. Kinoshita"
+        },
+        {
+            "@id": "mailto: bruno.depaulakinoshita@bsc.es",
+            "@type": "ContactPoint",
+            "contactType": "Author",
+            "email": "bruno.depaulakinoshita@bsc.es",
+            "identifier": "bruno.depaulakinoshita@bsc.es",
+            "url": "https://orcid.org/0000-0001-8250-4074"
+        },
+        {
+            "@id": "https://ror.org/05sd8tv96",
+            "@type": "Organization",
+            "name": "Barcelona Supercomputing Center"
+        }
+      ]
+    }
