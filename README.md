@@ -82,7 +82,7 @@ sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm
 ## Workflow
 
 An Autosubmit experiment created with
-`autosubmit expid -H local -d "mHM" -min -git https://github.com/kinow/auto-mhm-test-domains.git`
+`autosubmit expid -H local -d "mHM" -min -repo https://github.com/kinow/auto-mhm-test-domains.git -branch master -conf conf/bootstrap`
 when run will clone this Git repository, and prepare the Docker
 & Singularity containers, transfer all the required data over to
 the remote platform (it can be `localhost` for testing) and execute
