@@ -16,12 +16,6 @@
 # under the License.
 
 PLATFORMS:
-  LOCAL:
-    TYPE: ps
-    HOST: <LOCAL_HOST>
-    USER: <USER>
-    ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: <LOCAL_SCRATCH_DIR>
   REMOTE:
     TYPE: ps
     HOST: <REMOTE_HOST>
