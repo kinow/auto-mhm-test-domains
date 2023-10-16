@@ -16,34 +16,30 @@
 # under the License.
 
 JOBS:
-  SYNC_TO_REMOTE:
-    FILE: templates/sync_to_remote.sh
+  PREPARE_TEST_DATA:
+    FILE: templates/prepare_test_data.sh
     PLATFORM: local
     RUNNING: once
-    TITLE: 'Synchronize local data to remote platform'
+    TITLE: 'Fetch mHM test domain data, prepare containers for the run'
+    DOC: |
+      This task will fetch the test domain data
+      for mHM from their Git tag. Then it will prepare
+      the Singularity containers to run.
+  SYNC:
+    FILE: templates/sync.sh
+    PLATFORM: local
+    RUNNING: once
+    DEPENDENCIES: PREPARE_TEST_DATA
+    TITLE: 'Synchronize the test data with the run platform'
     DOC: |
       This task synchronizes the local files with
       the remote platform. More specifically, it
       will `scp` the singularity image.
-  REMOTE_SETUP:
-    FILE: templates/remote_setup.sh
-    PLATFORM: remote
-    RUNNING: once
-    DEPENDENCIES: SYNC_TO_REMOTE
-    TITLE: 'Remote setup'
-    DOC: |
-      This task will fetch the test domain data
-      for mHM from their Git tag.
   SIM:
     FILE: templates/sim.sh
-    PLATFORM: remote
     RUNNING: date
-    # TODO: SIM has a dependency on SIM-1 to control
-    #       the number of SIM jobs running in parallel.
-    #       But this would not be necessary if mHM
-    #       had an option to choose the output folder.
-    DEPENDENCIES: REMOTE_SETUP SIM-1
-    TITLE: 'Simulation'
+    DEPENDENCIES: SYNC
+    TITLE: 'Run simulation on the target platform'
     DOC: |
       This is the main task of the workflow. It
       will replace the period dates in the test
@@ -51,28 +47,26 @@ JOBS:
       the simulation with mHM (--nml).
   GRAPH:
     FILE: templates/graph.sh
-    PLATFORM: remote
     RUNNING: date
     DEPENDENCIES: SIM SIM-1
-    TITLE: 'Plot graph'
+    TITLE: 'Plot graph on the target platform'
     DOC: |
       This is the step in the simulation, where
       we plot the graphs for mHM.
-  SYNC_FROM_REMOTE:
-    FILE: templates/sync_from_remote.sh
+  COPY_GRAPH:
+    FILE: templates/copy_graph.sh
     PLATFORM: local
     RUNNING: once
     DEPENDENCIES: GRAPH
-    TITLE: 'Synchronize remote data to local platform'
+    TITLE: 'Copy the graph created by the run'
     DOC: |
-      This task copies remote data produced by mHM
+      This task copies data produced by mHM
       to the local platform.
   CLEAN:
     FILE: templates/clean.sh
-    PLATFORM: remote
     RUNNING: once
-    DEPENDENCIES: SYNC_FROM_REMOTE
-    TITLE: 'Clean remote files'
+    DEPENDENCIES: COPY_GRAPH
+    TITLE: 'Clean files'
     DOC: |
       The very final step. It will stop and clean
       the containers used for this simulation. It
