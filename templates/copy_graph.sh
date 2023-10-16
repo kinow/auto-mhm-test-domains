@@ -19,22 +19,30 @@
 
 set -eux -o pipefail
 
-TARGET_DIR="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/"
+WORKFLOW_RUN_DIRECTORY="%PLATFORMS.CURRENT_SCRATCH_DIR%/%CURRENT_PROJ_DIR%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+SCP_USER="%PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%"
+PROJECT_DIRECTORY=%PROJDIR%
 
 #######################################
-# Cleanup files from the workflow.
+# Copy files from the workflow directory to the project directory.
 # Globals:
 #   None
 # Arguments:
-#   Directory that contains a folder with the expid name
+#   Workflow run directory.
+#   SCP user string (user@host).
+#   Autosubmit project directory location.
 # Outputs:
-#   None
+#   0 if the files are successfully copied via scp, >0 otherwise.
 #######################################
-clean() {
-  delete_me=$1
-  if [ -d "${delete_me}" ] && [ "${delete_me}" != "/" ]; then
-    rm -rvf "${delete_me}"
-  fi
+copy_files() {
+  workflow_run_directory=$1
+  scp_user=$2
+  project_directory=$3
+  target_location="${scp_user}:${workflow_run_directory}"
+  scp \
+    "${target_location}/mhm_output*.tar.gz" \
+    "${target_location}/plot*.gif" \
+    "${project_directory}"
 }
 
-clean "${TARGET_DIR}"
+copy_files $WORKFLOW_RUN_DIRECTORY $SCP_USER $PROJECT_DIRECTORY
