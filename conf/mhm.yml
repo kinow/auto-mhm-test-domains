@@ -19,4 +19,6 @@ MHM:
   BRANCH_NAME: develop
   DOMAIN: 1
   EVAL_PERIOD_DURATION_YEARS: 2
-  SINGULARITY_CONTAINER:
+  # You can replace this for the location of your container in other platforms.
+  # This is used in `prepare_test_data.sh`
+  SINGULARITY_CONTAINER: /tmp/mhm.sif

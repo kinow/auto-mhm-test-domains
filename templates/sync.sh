@@ -19,31 +19,30 @@
 
 set -eux -o pipefail
 
-WORKFLOW_RUN_DIRECTORY="%PLATFORMS.CURRENT_SCRATCH_DIR%/%CURRENT_PROJ_DIR%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+LOCAL_WORKFLOW_RUN_DIRECTORY="%PROJDIR%/run"
+REMOTE_WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
 SCP_USER="%PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%"
-PROJECT_DIRECTORY=%PROJDIR%
 
 #######################################
 # Copy files from the project directory to the workflow run directory.
 # Globals:
 #   None
 # Arguments:
-#   Workflow run directory.
+#   Local workflow run directory.
+#   Remote workflow run directory.
 #   SCP user string (user@host).
-#   Autosubmit project directory location.
 # Outputs:
 #   0 if the files are successfully copied via scp, >0 otherwise.
 #######################################
 copy_files() {
-  workflow_run_directory=$1
-  scp_user=$2
-  project_directory=$3
-  target_location="${scp_user}:${workflow_run_directory}"
-  echo "Copying the plot script via scp: ${target_location}"
-  scp \
-    "${project_directory}/plot.py" \
-    "${project_directory}/*.nml" \
+  local local_workflow_run_directory=$1
+  local remote_workflow_run_directory=$2
+  local scp_user=$3
+  local target_location="${scp_user}:${remote_workflow_run_directory}"
+  echo "Copying the mHM data and scripts via scp to: ${target_location}"
+  scp -v -r \
+    "${local_workflow_run_directory}/"* \
     "${target_location}"
 }
 
-copy_files $WORKFLOW_RUN_DIRECTORY $SCP_USER $PROJECT_DIRECTORY
+copy_files "${LOCAL_WORKFLOW_RUN_DIRECTORY}" "${REMOTE_WORKFLOW_RUN_DIRECTORY}" "${SCP_USER}"

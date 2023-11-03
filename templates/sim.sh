@@ -19,30 +19,30 @@
 
 set -eux -o pipefail
 
-cd "%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+REMOTE_WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+MHM_DATA_DIRECTORY="${REMOTE_WORKFLOW_RUN_DIRECTORY}/data"
+CONTAINER_LOCATION="%MHM.SINGULARITY_CONTAINER%"
 
-# SDATE will be formatted as 19930101
-START_DATE="%SDATE%"
+#######################################
+# Run mHM.
+# Globals:
+#   None
+# Arguments:
+#   Remote data directory.
+#   Container location.
+# Outputs:
+#   0 if the directory exists or can be correctly created, >0 otherwise.
+#######################################
+sim() {
+  local remote_data_directory=$1
+  local container_location=$2
 
-echo "START DATE is ${START_DATE}"
+  pushd "${remote_data_directory}"
+  echo "Running mHM test domain simulation with test data located at ${remote_data_directory}"
+  singularity exec "${container_location}" \
+    /opt/conda/bin/mhm \
+    "${remote_data_directory}"
+  popd
+}
 
-# This will result in 1993 for the example above
-EVAL_PERIOD_START="${START_DATE:0:4}"
-EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
-EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
-
-MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-
-echo "Running mHM simulation with eval period start [${EVAL_PERIOD_START}] and end [${EVAL_PERIOD_END}]"
-
-cp mhm.nml "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i -E "s/eval_Per\(([0-9])\)%yStart = ([0-9]+)/eval_Per\(\1\)%yStart = $EVAL_PERIOD_START/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i -E "s/eval_Per\(([0-9])\)%yEnd = ([0-9]+)/eval_Per\(\1\)%yEnd = EVAL_PERIOD_END/" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i "s|test_domain/|${MHM_DATA_DIR}/test_domain/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-sed -i "s|test_domain_2/|${MHM_DATA_DIR}/test_domain_2/|" "${MHM_DATA_DIR}/mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml"
-
-singularity exec "${MHM_SINGULARITY_SANDBOX_DIR}" /opt/conda/bin/mhm \
-    --nml "mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.nml" "${MHM_DATA_DIR}"
-
-echo "SIM complete!"
+sim "${MHM_DATA_DIRECTORY}" "${CONTAINER_LOCATION}"

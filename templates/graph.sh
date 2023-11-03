@@ -19,48 +19,52 @@
 
 set -eux -o pipefail
 
-cd "%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
-
-# SDATE will be formatted as 19930101
-START_DATE="%SDATE%"
-
-echo "START DATE is ${START_DATE}"
-
-# This will result in 1993 for the example above
-EVAL_PERIOD_START="${START_DATE:0:4}"
-EVAL_PERIOD_DURATION_YEARS="%MHM.EVAL_PERIOD_DURATION_YEARS%"
-EVAL_PERIOD_END=$((EVAL_PERIOD_START+EVAL_PERIOD_DURATION_YEARS))
-
-MHM_SINGULARITY_SANDBOX_DIR="mhm_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
-MHM_DATA_DIR="data_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}"
+REMOTE_WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+MHM_DATA_DIRECTORY="${REMOTE_WORKFLOW_RUN_DIRECTORY}/data"
+MHM_DATA_DIRECTORY_OUTPUT="${MHM_DATA_DIRECTORY}/output_b1/"
+PLOT_SCRIPT_LOCATION="${REMOTE_WORKFLOW_RUN_DIRECTORY}/plot.py"
+CONTAINER_LOCATION="%MHM.SINGULARITY_CONTAINER%"
 
 echo "Plotting PNG files for each timestep of the PET variable in the mHM_Fluxes_States.nc output file"
 
+#######################################
+# Run mHM.
+# Globals:
+#   None
+# Arguments:
+#   Plot script location.
+#   Remote data directory.
+#   Container location.
+# Outputs:
+#   0 if the plot is created and the outputs saved, >0 otherwise.
+#######################################
 function plot() {
-  local OUTPUT_FOLDER=$1
-  echo "Output folder is: ${OUTPUT_FOLDER}"
-  singularity exec "${MHM_SINGULARITY_SANDBOX_DIR}" /opt/conda/bin/python plot.py \
-      --variable "PET" \
-      --input "${OUTPUT_FOLDER}/mHM_Fluxes_States.nc" \
-      --output "${OUTPUT_FOLDER}"
+  local plot_script_location=$1
+  local output_folder=$2
+  local container_location=$3
+  local output_folder_parent=$(dirname "${output_folder}")
+  local output_folder_basename=$(basename "${output_folder}")
+  local tar_file="${output_folder_parent}/mhm_output.tar.gz"
+
+  singularity exec \
+    --bind "${plot_script_location}":"${plot_script_location}" \
+    --bind "${output_folder}":"${output_folder}" \
+    "${container_location}" /opt/conda/bin/python "${plot_script_location}" \
+    --variable "PET" \
+    --input "${output_folder}/mHM_Fluxes_States.nc" \
+    --output "${output_folder}"
+
   convert \
-      -delay 30 \
-      -loop 0 \
-      "${OUTPUT_FOLDER}/*.png" \
-      "${OUTPUT_FOLDER}/plot_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.gif"
-  local OUTPUT_FOLDER_PARENT=$(dirname "${OUTPUT_FOLDER}")
-  echo "Output folder parent is: ${OUTPUT_FOLDER_PARENT}"
-  local OUTPUT_FOLDER_BASENAME=$(basename "${OUTPUT_FOLDER}")
-  echo "Output folder basename is: ${OUTPUT_FOLDER_BASENAME}"
-  local TAR_FILE="mhm_output_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.tar.gz"
+    -delay 30 \
+    -loop 0 \
+    "${output_folder}/*.png" \
+    "${output_folder_parent}/plot.gif"
+
   tar \
-    -zcvf "mhm_output_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.tar.gz" \
-    -C "${OUTPUT_FOLDER_PARENT}" \
-    "${OUTPUT_FOLDER_BASENAME}"
-  echo "Copying GIF to directory: ${PWD}"
-  cp "${OUTPUT_FOLDER}/plot_${EVAL_PERIOD_START}_${EVAL_PERIOD_END}.gif" .
+    -zcvf "${tar_file}" \
+    -C "${output_folder_parent}" \
+    "${output_folder_basename}"
+
 }
 
-plot "${MHM_DATA_DIR}/output_b1/"
-
-echo "GRAPH complete!"
+plot "${PLOT_SCRIPT_LOCATION}" "${MHM_DATA_DIRECTORY_OUTPUT}" "${CONTAINER_LOCATION}"
