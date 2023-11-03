@@ -18,7 +18,17 @@
 PLATFORMS:
   REMOTE:
     TYPE: ps
+    # See bootstrap/include.yml, as that file loads another
+    # file with platform settings that can override these.
     HOST: <REMOTE_HOST>
     USER: <USER>
     ADD_PROJECT_TO_HOST: false
+    # A directory used to write data during the run.
     SCRATCH_DIR: <REMOTE_SCRATCH_DIR>
+    # In HPC this is normally a string like proj_1234, and
+    # is also a directory name, shared by a list of users
+    # members of the unix group with the same name proj_1234.
+    # In our case, this string will be combined with the
+    # SCRATCH_DIR to define the workflow run directory in
+    # the platform (local, or remote).
+    PROJECT: mhm-project
