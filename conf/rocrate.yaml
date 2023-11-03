@@ -21,7 +21,7 @@ ROCRATE:
           "@id": "#create-action",
           "@type": "CreateAction",
           "name": "Run mHM",
-          "instrument": { "@id": "workflow.yml" },
+          "instrument": { "@id": "conf/metadata/experiment_data.yml" },
           "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
         },
         {
