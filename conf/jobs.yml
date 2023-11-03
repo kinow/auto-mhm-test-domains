@@ -16,28 +16,36 @@
 # under the License.
 
 JOBS:
-  PREPARE_TEST_DATA:
-    FILE: templates/prepare_test_data.sh
+  LOCAL_SETUP:
+    FILE: templates/local_setup.sh
     PLATFORM: local
     RUNNING: once
-    TITLE: 'Fetch mHM test domain data, prepare containers for the run'
+    TITLE: 'Fetch mHM test domain data, prepare containers for the run.'
     DOC: |
-      This task will fetch the test domain data
-      for mHM from their Git tag. Then it will prepare
-      the Singularity containers to run.
+      This task will test test the Singularity container, prepare
+      the local run directories, and download the mHM test data.
+  REMOTE_SETUP:
+    FILE: templates/remote_setup.sh
+    PLATFORM: remote
+    RUNNING: once
+    DEPENDENCIES: LOCAL_SETUP
+    TITLE: 'Create remote directory.'
+    DOC: |
+      This task simply creates the remote workflow run directory.
   SYNC:
     FILE: templates/sync.sh
-    PLATFORM: local
+    PLATFORM: remote
     RUNNING: once
-    DEPENDENCIES: PREPARE_TEST_DATA
-    TITLE: 'Synchronize the test data with the run platform'
+    DEPENDENCIES: REMOTE_SETUP
+    TITLE: 'Synchronize the test data with the remote platform'
     DOC: |
       This task synchronizes the local files with
       the remote platform. More specifically, it
       will `scp` the singularity image.
   SIM:
     FILE: templates/sim.sh
-    RUNNING: date
+    PLATFORM: remote
+    RUNNING: once
     DEPENDENCIES: SYNC
     TITLE: 'Run simulation on the target platform'
     DOC: |
@@ -47,7 +55,8 @@ JOBS:
       the simulation with mHM (--nml).
   GRAPH:
     FILE: templates/graph.sh
-    RUNNING: date
+    PLATFORM: remote
+    RUNNING: once
     DEPENDENCIES: SIM SIM-1
     TITLE: 'Plot graph on the target platform'
     DOC: |
@@ -62,12 +71,3 @@ JOBS:
     DOC: |
       This task copies data produced by mHM
       to the local platform.
-  CLEAN:
-    FILE: templates/clean.sh
-    RUNNING: once
-    DEPENDENCIES: COPY_GRAPH
-    TITLE: 'Clean files'
-    DOC: |
-      The very final step. It will stop and clean
-      the containers used for this simulation. It
-      will also delete the output files of mHM.

@@ -31,8 +31,7 @@ repository, and running the [`plot.py`][plotpy] script (it uses
 Xarray and Matplotlib to parse the NetCDF test output).
 
 <div>
-  <img src="./docs/plot_1991_1993.gif" style="max-width: 400px;" alt="mHM plot 1991-1993" />
-  <img src="./docs/plot_1993_1995.gif" style="max-width: 400px;" alt="mHM plot 1993-1995" />
+  <img src="./docs/plot.gif" style="max-width: 400px;" alt="mHM test domain plot" />
 </div>
 
 ## Prerequisites
@@ -54,6 +53,7 @@ prerequisites:
 2. Linux
 3. Autosubmit 4.0.98 or greater (e.g. `pip install autosubmit==4.0.98`)
 4. Docker & Singularity 3.11.x or greater for running the container
+5. ImageMagick's `convert` to generate the GIF animation using the PNG files produced by `plot.py`
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 
@@ -71,9 +71,10 @@ Now, to build the Singularity container, using the Docker container image, use t
 sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
 ```
 
-**NOTE**: The workflow expects the `mhm.sif` Singularity file to exist in
-`~/mhm.sif` on each platform. To modify that location, change it on the
-`conf/mhm.yml` file.
+Now copy the created container `mhm.sif` into the location specified in `conf/mhm.yml`.
+
+**NOTE**: The workflow expects the `mhm.sif` Singularity file to exist
+on each platform.
 
 ## Workflow
 
@@ -99,7 +100,6 @@ Run the following command to create a new Autosubmit experiment.
 
 ```bash
 autosubmit expid \
-    --HPC "local" \
     --description "Autosubmit mHM test domains" \
     --minimal_configuration \
     --git_as_conf conf/bootstrap \
@@ -114,8 +114,8 @@ configuration from the subdirectory specified in the `git_as_conf`
 parameter.
 
 > NOTE: The output of `autosubmit expid` contains the ID of an
->       experiment. Replace `<EXPID>` by that value in the next
->       commands.
+> experiment. Replace `<EXPID>` by that value in the next
+> commands.
 
 The `platforms.yml` file in this repository contains placeholders
 like `<USER>`, `<REMOTE_HOST>`, etc., that must be filled in before
@@ -134,7 +134,6 @@ PLATFORMS:
     TYPE: ps
     HOST: localhost
     ADD_PROJECT_TO_HOST: false
-     # We will use /tmp/remote/mhm-project/$USER/
     SCRATCH_DIR: /tmp/scratch/
     PROJECT: mhm-project
     USER: kinow
@@ -145,7 +144,7 @@ parse and validate its configuration and produce a workflow graph,
 prepare jobs and scripts, etc.):
 
 ```bash
-autosubmit create $expid
+autosubmit create <EXPID>
 ```
 
 If everything goes well you should see the workflow graph plot
@@ -153,7 +152,7 @@ appear on your screen (if you have an X server running). Close
 the PDF and now run the workflow with the following command:
 
 ```bash
-autosubmit run $expid
+autosubmit run <EXPID>
 ```
 
 That will execute the complete workflow of your Autosubmit
@@ -163,17 +162,17 @@ the workflow with the following commands:
 
 ```bash
 # plot a new PDF with the progress of your workflow
-autosubmit monitor $expid
+autosubmit monitor <EXPID>
 # print the output logs of your workflow
-autosubmit cat-log --file o $expid
+autosubmit cat-log --file o <EXPID>
 # print the error logs of your workflow, in `tail -f` mode
-autosubmit cat-log --file o --mode e $expid
+autosubmit cat-log --file o --mode e <EXPID>
 ```
 
 > NOTE: Autosubmit commands produce log files on disk
->       for traceability. You can increase the log levels
->       with the `-lf` (log file) and `lc` (log console)
->       parameter flags.
+> for traceability. You can increase the log levels
+> with the `-lf` (log file) and `lc` (log console)
+> parameter flags.
 
 And if you are using a version of Autosubmit that supports
 RO-Crate, you can create an archive with the provenance
@@ -181,13 +180,13 @@ metadata file, the workflow configuration, plots, logs, and
 other traces included.
 
 ```bash
-autosubmit archive --rocrate $expid
+autosubmit archive --rocrate <EXPID>
 ```
 
 > NOTE: If you use RO-Crate, you will have to provide a
->       JSON-LD file with extra metadata about your
->       experiment and workflow to have a more complete
->       RO-Crate file (using the Workflow Run Crate Profile).
+> JSON-LD file with extra metadata about your
+> experiment and workflow to have a more complete
+> RO-Crate file (using the Workflow Run Crate Profile).
 
 ## RO-Crate
 
@@ -273,7 +272,11 @@ Please, note that:
 - mHM is licensed under the GNU General Public License v3.
 
 [autosubmit]: https://autosubmit.readthedocs.io/
+
 [mhm]: https://mhm.pages.ufz.de/mhm/stable/
+
 [dockerfile]: ./Dockerfile
+
 [license]: ./LICENSE.txt
+
 [plotpy]: ./plot.py

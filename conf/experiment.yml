@@ -15,8 +15,10 @@
 # specific language governing permissions and limitations
 # under the License.
 
+# NOTE: These values are not used, but Autosubmit requires
+#       them to be defined.
 EXPERIMENT:
-  DATELIST: 19910101 19930101
+  DATELIST: 19910101
   CALENDAR: standard
   CHUNKSIZE: 0
   NUMCHUNKS: 0

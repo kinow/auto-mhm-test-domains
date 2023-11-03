@@ -19,11 +19,12 @@
 
 set -eux -o pipefail
 
-WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
-DATA_DIRECTORY="./data"
+LOCAL_WORKFLOW_RUN_DIRECTORY="%PROJDIR%/run"
+MHM_DATA_DIRECTORY="${LOCAL_WORKFLOW_RUN_DIRECTORY}/data"
 CONTAINER_LOCATION="%MHM.SINGULARITY_CONTAINER%"
 MHM_BRANCH_NAME="%MHM.BRANCH_NAME%"
 MHM_DOMAIN_NAME="%MHM.DOMAIN%"
+PROJECT_DIRECTORY="%PROJDIR%"
 
 #######################################
 # Verify that the container exists and print information about it.
@@ -35,28 +36,28 @@ MHM_DOMAIN_NAME="%MHM.DOMAIN%"
 #   0 if the container exists and is valid, >0 otherwise.
 #######################################
 test_container() {
-  container_location=$1
+  local container_location=$1
   singularity inspect --all "${container_location}"
 }
 
 #######################################
 # Verify that the container exists and print information about it.
-# This also copies the container file there.
+# Also copies the `plot.py` file into the workflow run directory.
 # Globals:
 #   None
 # Arguments:
 #   Workflow run directory.
-#   Container location.
+#   Project directory.
 # Outputs:
-#   0 if the directories can be created correctly and the container copied there, >0 otherwise.
+#   0 if the directories can be created correctly, >0 otherwise.
 #######################################
 prepare_workflow_run_directory() {
-  workflow_run_directory=$1
-  container_location=$2
+  local workflow_run_directory=$1
+  local project_directory=$2
   if [ ! -d "${workflow_run_directory}" ]; then
     mkdir -pv "${workflow_run_directory}"
   fi
-  cp -v "${container_location}" "${workflow_run_directory}"
+  cp "${project_directory}/plot.py" "${workflow_run_directory}"
 }
 
 #######################################
@@ -72,10 +73,10 @@ prepare_workflow_run_directory() {
 #   0 if the data has been downloaded correctly, >0 otherwise.
 #######################################
 download_test_data() {
-  data_directory=$1
-  container_location=$2
-  branch_name=$3
-  domain=$4
+  local data_directory=$1
+  local container_location=$2
+  local branch_name=$3
+  local domain=$4
   # We started cloning the data directory from Git, but then we realized we could
   # use mHM utility that downloads the test data. The only downside to this is that
   # we need to have the same container deployed locally and remotely (assuming that
@@ -85,16 +86,12 @@ download_test_data() {
   # https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository
   # https://askubuntu.com/questions/460885/how-to-clone-only-some-directories-from-a-git-repository
   if [ ! -d "${data_directory}" ]; then
-    mkdir -pv "${data_directory}"
+    singularity run "${container_location}" mhm-download -b "${branch_name}" -d "${domain}" -p "${data_directory}"
   fi
-
-  singularity run "${container_location}" mhm-download -b "${branch_name}" -d "${domain}" -p "${data_directory}"
-
-  cp "./*.nml" "${data_directory}"
 }
 
 test_container "${CONTAINER_LOCATION}"
 
-prepare_workflow_run_directory "${WORKFLOW_RUN_DIRECTORY}" "${CONTAINER_LOCATION}"
+prepare_workflow_run_directory "${LOCAL_WORKFLOW_RUN_DIRECTORY}" "${PROJECT_DIRECTORY}"
 
-download_test_data "${DATA_DIRECTORY}" "${CONTAINER_LOCATION}" "${MHM_BRANCH_NAME}" "${MHM_DOMAIN_NAME}"
+download_test_data "${MHM_DATA_DIRECTORY}" "${CONTAINER_LOCATION}" "${MHM_BRANCH_NAME}" "${MHM_DOMAIN_NAME}"

@@ -19,22 +19,22 @@
 
 set -eux -o pipefail
 
-TARGET_DIR="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/"
+REMOTE_WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
 
 #######################################
-# Cleanup files from the workflow.
+# Create the remote workflow run directory.
 # Globals:
 #   None
 # Arguments:
-#   Directory that contains a folder with the expid name
+#   Remote workflow run directory.
 # Outputs:
-#   None
+#   0 if the directory exists or can be correctly created, >0 otherwise.
 #######################################
-clean() {
-  delete_me=$1
-  if [ -d "${delete_me}" ] && [ "${delete_me}" != "/" ]; then
-    rm -rvf "${delete_me}"
+remote_setup() {
+  remote_workflow_run_dir=$1
+  if [ ! -d "${remote_workflow_run_dir}" ]; then
+    mkdir -pv "${remote_workflow_run_dir}"
   fi
 }
 
-clean "${TARGET_DIR}"
+remote_setup "${REMOTE_WORKFLOW_RUN_DIRECTORY}"

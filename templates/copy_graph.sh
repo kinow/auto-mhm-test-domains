@@ -19,30 +19,31 @@
 
 set -eux -o pipefail
 
-WORKFLOW_RUN_DIRECTORY="%PLATFORMS.CURRENT_SCRATCH_DIR%/%CURRENT_PROJ_DIR%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+REMOTE_WORKFLOW_RUN_DIRECTORY="%PLATFORMS.REMOTE.SCRATCH_DIR%/%PLATFORMS.REMOTE.PROJECT%/%PLATFORMS.REMOTE.USER%/%DEFAULT.EXPID%"
+MHM_DATA_DIRECTORY="${REMOTE_WORKFLOW_RUN_DIRECTORY}/data"
 SCP_USER="%PLATFORMS.REMOTE.USER%@%PLATFORMS.REMOTE.HOST%"
-PROJECT_DIRECTORY=%PROJDIR%
+PROJECT_DIRECTORY="%PROJDIR%"
 
 #######################################
 # Copy files from the workflow directory to the project directory.
 # Globals:
 #   None
 # Arguments:
-#   Workflow run directory.
+#   Remote mhm data directory.
 #   SCP user string (user@host).
 #   Autosubmit project directory location.
 # Outputs:
 #   0 if the files are successfully copied via scp, >0 otherwise.
 #######################################
 copy_files() {
-  workflow_run_directory=$1
-  scp_user=$2
-  project_directory=$3
-  target_location="${scp_user}:${workflow_run_directory}"
+  local remote_mhm_data_directory=$1
+  local scp_user=$2
+  local project_directory=$3
+  local target_location="${scp_user}:${remote_mhm_data_directory}"
   scp \
-    "${target_location}/mhm_output*.tar.gz" \
-    "${target_location}/plot*.gif" \
+    "${target_location}/mhm_output.tar.gz" \
+    "${target_location}/plot.gif" \
     "${project_directory}"
 }
 
-copy_files $WORKFLOW_RUN_DIRECTORY $SCP_USER $PROJECT_DIRECTORY
+copy_files $MHM_DATA_DIRECTORY $SCP_USER $PROJECT_DIRECTORY
