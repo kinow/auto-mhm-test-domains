@@ -52,16 +52,10 @@ prerequisites:
 
 1. Internet connection
 2. Linux
-3. Autosubmit 4.0.76 (e.g. `pip install autosubmit==4.0.76`)
-4. Docker & Singularity 3.11.x for containers
-5. password-less `sudo` for the user running Autosubmit (as it will
-   try to create the container as part of the workflow)
+3. Autosubmit 4.0.98 or greater (e.g. `pip install autosubmit==4.0.98`)
+4. Docker & Singularity 3.11.x or greater for running the container
 
 For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
-
-> NOTE: You can use `visudo`, for example, to enable password-less
->       `sudo` when building Singularity containers:
->       `<MY-USER> ALL=(ALL) NOPASSWD:/usr/local/bin/singularity`
 
 ## Build the containers
 
@@ -77,15 +71,17 @@ Now, to build the Singularity container, using the Docker container image, use t
 sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
 ```
 
-**NOTE**: The workflow expects the `mhm.sif` Singularity file to exist in the remote host.
+**NOTE**: The workflow expects the `mhm.sif` Singularity file to exist in
+`~/mhm.sif` on each platform. To modify that location, change it on the
+`conf/mhm.yml` file.
 
 ## Workflow
 
 An Autosubmit experiment created with
-`autosubmit expid -H local -d "mHM" -min -repo https://github.com/kinow/auto-mhm-test-domains.git -branch master -conf conf/bootstrap`
+`autosubmit expid -H <YOUR_PLATFORM> -d "mHM" -min -repo https://github.com/kinow/auto-mhm-test-domains.git -branch master -conf conf/bootstrap`
 when run will clone this Git repository, and prepare the Docker
 & Singularity containers, transfer all the required data over to
-the remote platform (it can be `localhost` for testing) and execute
+the chosen platform (it can be local for testing) and execute
 the mHM model for each start date (as the mHM simulation period date).
 The last tasks in the workflow will plot the data before cleaning the
 simulation logs and files.
@@ -111,14 +107,14 @@ autosubmit expid \
     --git_branch master
 ```
 
-This will create a new experiment, using local SSH connections
-(as the command is using the default “local” platform), and on
-the first execution of `autosubmit create`, it will clone the
-Git repository specified and load the configuration from the
-subdirectory specified in the `git_as_conf` parameter.
+This will create a new experiment, using SSH connections to the
+“local” platform. On the first execution of `autosubmit create`,
+it will clone the Git repository specified and load the
+configuration from the subdirectory specified in the `git_as_conf`
+parameter.
 
 > NOTE: The output of `autosubmit expid` contains the ID of an
->       experiment. Replace `$expid` by that value in the next
+>       experiment. Replace `<EXPID>` by that value in the next
 >       commands.
 
 The `platforms.yml` file in this repository contains placeholders
@@ -131,22 +127,18 @@ values by your user account information).
 # File: ~/.config/autosubmit/platforms.yml
 
 PLATFORMS:
-  LOCAL:
-    TYPE: ps
-    HOST: localhost
-    USER: kinow
-    ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: /tmp/local/
+  # You can use a different name, just adjust your `autosubmit expid`
+  # command and `conf/platforms.yml`, and this other platforms.yml
+  # files.
   REMOTE:
     TYPE: ps
     HOST: localhost
-    USER: kinow
     ADD_PROJECT_TO_HOST: false
-    SCRATCH_DIR: /tmp/remote/
+     # We will use /tmp/remote/mhm-project/$USER/
+    SCRATCH_DIR: /tmp/scratch/
+    PROJECT: mhm-project
+    USER: kinow
 ```
-
-Remember to copy the `mhm.sif` Singularity file to the remote host
-scratch directory (`/tmp/remote` in the example above).
 
 The next command is to prepare the experiment workflow (i.e.
 parse and validate its configuration and produce a workflow graph,
@@ -199,9 +191,73 @@ autosubmit archive --rocrate $expid
 
 ## RO-Crate
 
-TODO: document the `rocrate.json` used to help populating the
-`ro-crate-metadata.json` (partials, with license, author, inputs,
-and outputs)…
+This is an example RO-Crate configuration file for this Autosubmit workflow.
+You can add this setting anywhere, like `<EXPID>/conf/rocrate.yml`.
+
+```yaml
+ROCRATE:
+  INPUTS:
+    # Add the extra configuration keys to be exported.
+    # This one is from the mhm.yml file, we export everything
+    # as inputs.
+    - "MHM"
+  OUTPUTS:
+    - "*/*.gif"
+  PATCH: |
+    {
+      "@graph": [
+        {
+          "@id": "./",
+          "license": "Apache-2.0",
+          "creator": {
+            "@id": "https://orcid.org/0000-0001-8250-4074"
+          },
+          "publisher": {
+            "@id": "https://ror.org/05sd8tv96"
+          }
+        },
+        {
+          "@id": "#create-action",
+          "@type": "CreateAction",
+          "name": "Run mHM",
+          "instrument": { "@id": "workflow.yml" },
+          "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
+        },
+        {
+          "@id": "ro-crate-metadata.json",
+          "author": [
+            {
+              "@id": "https://orcid.org/0000-0001-8250-4074"
+            }
+          ]
+        },
+        {
+          "@id": "https://orcid.org/0000-0001-8250-4074",
+          "@type": "Person",
+          "affiliation": {
+              "@id": "https://ror.org/05sd8tv96"
+          },
+          "contactPoint": {
+              "@id": "mailto: bruno.depaulakinoshita@bsc.es"
+          },
+          "name": "Bruno P. Kinoshita"
+        },
+        {
+            "@id": "mailto: bruno.depaulakinoshita@bsc.es",
+            "@type": "ContactPoint",
+            "contactType": "Author",
+            "email": "bruno.depaulakinoshita@bsc.es",
+            "identifier": "bruno.depaulakinoshita@bsc.es",
+            "url": "https://orcid.org/0000-0001-8250-4074"
+        },
+        {
+            "@id": "https://ror.org/05sd8tv96",
+            "@type": "Organization",
+            "name": "Barcelona Supercomputing Center"
+        }
+      ]
+    }
+```
 
 ## License
 
