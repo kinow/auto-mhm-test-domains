@@ -79,7 +79,7 @@ on each platform.
 ## Workflow
 
 An Autosubmit experiment created with
-`autosubmit expid -H <YOUR_PLATFORM> -d "mHM" -min -repo https://github.com/kinow/auto-mhm-test-domains.git -branch master -conf conf/bootstrap`
+`autosubmit expid -H <YOUR_PLATFORM> -d "mHM" -min -repo https://github.com/kinow/auto-mhm-test-domains.git -git_branch master -conf conf/bootstrap`
 when run will clone this Git repository, and prepare the Docker
 & Singularity containers, transfer all the required data over to
 the chosen platform (it can be local for testing) and execute
@@ -138,6 +138,9 @@ PLATFORMS:
     PROJECT: mhm-project
     USER: kinow
 ```
+
+> NOTE: The `SCRATCH_DIR` and `PROJECT` directories must already
+>       exist or be created before following the next steps.
 
 The next command is to prepare the experiment workflow (i.e.
 parse and validate its configuration and produce a workflow graph,
