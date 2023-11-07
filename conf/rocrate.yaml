@@ -1,3 +1,11 @@
+# These values act as variables, and are replaced by Autosubmit when used
+# as placeholders (wrapped by the percent sign).
+ROCRATE_USERID: "https://orcid.org/0000-0001-8250-4074"
+ROCRATE_REALNAME: "Bruno de Paula Kinoshita"
+ROCRATE_EMAIL: "bruno.depaulakinoshita@bsc.es"
+ROCRATE_ORGID: "https://ror.org/05sd8tv96"
+ROCRATE_ORGNAME: "Barcelona Supercomputing Center"
+
 ROCRATE:
   INPUTS:
     # Add the extra keys to be exported.
@@ -11,10 +19,10 @@ ROCRATE:
           "@id": "./",
           "license": "Apache-2.0",
           "creator": {
-            "@id": "https://orcid.org/0000-0001-8250-4074"
+            "@id": "%ROCRATE_USERID%"
           },
           "publisher": {
-            "@id": "https://ror.org/05sd8tv96"
+            "@id": "%ROCRATE_ORGID%"
           }
         },
         {
@@ -22,39 +30,39 @@ ROCRATE:
           "@type": "CreateAction",
           "name": "Run mHM",
           "instrument": { "@id": "conf/metadata/experiment_data.yml" },
-          "agent": { "@id": "https://orcid.org/0000-0001-8250-4074" }
+          "agent": { "@id": "%ROCRATE_USERID%" }
         },
         {
           "@id": "ro-crate-metadata.json",
           "author": [
             {
-              "@id": "https://orcid.org/0000-0001-8250-4074"
+              "@id": "%ROCRATE_USERID%"
             }
           ]
         },
         {
-          "@id": "https://orcid.org/0000-0001-8250-4074",
+          "@id": "%ROCRATE_USERID%",
           "@type": "Person",
           "affiliation": {
-              "@id": "https://ror.org/05sd8tv96"
+              "@id": "%ROCRATE_ORGID%"
           },
           "contactPoint": {
-              "@id": "mailto: bruno.depaulakinoshita@bsc.es"
+              "@id": "mailto: %ROCRATE_EMAIL%"
           },
-          "name": "Bruno P. Kinoshita"
+          "name": "%ROCRATE_REALNAME%"
         },
         {
-            "@id": "mailto: bruno.depaulakinoshita@bsc.es",
+            "@id": "mailto: %ROCRATE_EMAIL%",
             "@type": "ContactPoint",
             "contactType": "Author",
-            "email": "bruno.depaulakinoshita@bsc.es",
-            "identifier": "bruno.depaulakinoshita@bsc.es",
-            "url": "https://orcid.org/0000-0001-8250-4074"
+            "email": "%ROCRATE_EMAIL%",
+            "identifier": "%ROCRATE_EMAIL%",
+            "url": "%ROCRATE_USERID%"
         },
         {
-            "@id": "https://ror.org/05sd8tv96",
+            "@id": "%ROCRATE_ORGID%",
             "@type": "Organization",
-            "name": "Barcelona Supercomputing Center"
+            "name": "%ROCRATE_ORGNAME%"
         }
       ]
     }
