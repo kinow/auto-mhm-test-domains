@@ -261,6 +261,21 @@ ROCRATE:
     }
 ```
 
+## Troubleshooting
+
+If you have issues running the workflow that are related to the containers,
+you can try re-building without the cache by using the `docker build --no-cache`
+flag.
+
+Another option to troubleshoot issues with the containers is to use the final
+container image, `mhm.sif`, directly in the command-line, without the workflow.
+
+For example:
+
+```bash
+singularity run mhm.sif mhm-download -b develop -d 1 -p /tmp/data
+```
+
 ## License
 
 This workflow is licensed under the GNU General Public License V3. You can
