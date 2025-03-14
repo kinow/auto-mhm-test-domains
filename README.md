@@ -68,7 +68,7 @@ $ docker build --no-cache=true --tag "auto-mhm-test-domains/mhm:v5.12.1.dev228" 
 Now, to build the Singularity container, using the Docker container image, use this command.
 
 ```bash
-$ sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
+$ singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
 ```
 
 Now copy the created container `mhm.sif` into the location specified in `conf/mhm.yml`.
