@@ -62,13 +62,13 @@ For a list of software used, besides `mHM`, see the [`Dockerfile`][dockerfile].
 To build the Docker container image first, use this command.
 
 ```bash
-sudo docker build --no-cache=true --tag "auto-mhm-test-domains/mhm:v5.12.1.dev228" .
+$ docker build --no-cache=true --tag "auto-mhm-test-domains/mhm:v5.12.1.dev228" --load .
 ```
 
 Now, to build the Singularity container, using the Docker container image, use this command.
 
 ```bash
-sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
+$ sudo singularity build --force mhm.sif docker-daemon://auto-mhm-test-domains/mhm:v5.12.1.dev228
 ```
 
 Now copy the created container `mhm.sif` into the location specified in `conf/mhm.yml`.
@@ -99,7 +99,7 @@ can import the configuration files from this Git repository.
 Run the following command to create a new Autosubmit experiment.
 
 ```bash
-autosubmit expid \
+$ autosubmit expid \
     --description "Autosubmit mHM test domains" \
     --minimal_configuration \
     --git_as_conf conf/bootstrap \
@@ -147,7 +147,7 @@ parse and validate its configuration and produce a workflow graph,
 prepare jobs and scripts, etc.):
 
 ```bash
-autosubmit create <EXPID>
+$ autosubmit create <EXPID>
 ```
 
 If everything goes well you should see the workflow graph plot
@@ -155,7 +155,7 @@ appear on your screen (if you have an X server running). Close
 the PDF and now run the workflow with the following command:
 
 ```bash
-autosubmit run <EXPID>
+$ autosubmit run <EXPID>
 ```
 
 That will execute the complete workflow of your Autosubmit
@@ -165,11 +165,11 @@ the workflow with the following commands:
 
 ```bash
 # plot a new PDF with the progress of your workflow
-autosubmit monitor <EXPID>
+$ autosubmit monitor <EXPID>
 # print the output logs of your workflow
-autosubmit cat-log --file o <EXPID>
+$ autosubmit cat-log --file o <EXPID>
 # print the error logs of your workflow, in `tail -f` mode
-autosubmit cat-log --file o --mode e <EXPID>
+$ autosubmit cat-log --file o --mode e <EXPID>
 ```
 
 > NOTE: Autosubmit commands produce log files on disk
@@ -183,7 +183,7 @@ metadata file, the workflow configuration, plots, logs, and
 other traces included.
 
 ```bash
-autosubmit archive --rocrate <EXPID>
+$ autosubmit archive --rocrate <EXPID>
 ```
 
 > NOTE: If you use RO-Crate, you will have to provide a
@@ -273,7 +273,7 @@ container image, `mhm.sif`, directly in the command-line, without the workflow.
 For example:
 
 ```bash
-singularity run mhm.sif mhm-download -b develop -d 1 -p /tmp/data
+$ singularity run mhm.sif mhm-download -b develop -d 1 -p /tmp/data
 ```
 
 ## License
